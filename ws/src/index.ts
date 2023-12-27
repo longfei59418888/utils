@@ -1,5 +1,5 @@
 import { WsOption } from './types';
-import Events from 'xl_events';
+import Events from '@xlong/events';
 
 const defaultOption = {
   pingTime: 8000,

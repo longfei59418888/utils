@@ -1,6 +1,6 @@
 {
-  "name": "xl_events",
-  "version": "1.0.3",
+  "name": "@xlong/events",
+  "version": "1.0.1",
   "description": "wangxiaolong utils",
   "main": "lib/index.js",
   "module": "lib/index.js",

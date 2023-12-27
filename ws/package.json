@@ -1,6 +1,6 @@
 {
-  "name": "xl_ws",
-  "version": "1.0.0",
+  "name": "@xlong/ws",
+  "version": "1.0.1",
   "description": "wangxiaolong utils",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -16,5 +16,8 @@
   "files": [
     "lib",
     "types"
-  ]
+  ],
+  "dependencies": {
+    "@xlong/events": "^1.0.0"
+  }
 }

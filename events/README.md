@@ -1,6 +1,14 @@
-## xl_events 
+## @xlong/events
 
+>   
 > 基础的事件模型
+
+#### 安装
+```shell
+npm install @xlong/events 
+yarn add @xlong/events 
+pnpm add @xlong/events 
+```
 
 #### 方法
 - on<D>(eventName: string, listener: Listener<D>): void
@@ -14,7 +22,7 @@
 ###### demo
 ```typescript
 // 全局 events
-import { events } from 'xl_events';
+import { events } from '@xlong/events';
 
 events.on('click', ()=>console.log('click'));
 events.on('click.top', (params)=>console.log('click.top'+params));

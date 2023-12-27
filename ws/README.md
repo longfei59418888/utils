@@ -1,8 +1,15 @@
-## xl_ws 
+## @xlong/ws 
 
 > 简单的 websocket 工具   
-> 继承事件 xl_events， 实现了心跳检查   
+> 继承事件 @xlong/events， 实现了心跳检查   
 > 自动重连：关闭重连、错误重连、心跳检查失败重连  
+
+#### 安装
+```shell
+npm install @xlong/ws 
+yarn add @xlong/ws 
+pnpm add @xlong/ws 
+```
 
 #### 构造函数
 - new WS(url: string, option?: WsOption)
@@ -23,7 +30,7 @@
 
 ###### demo
 ```typescript
-import WS from "xl_ws";
+import WS from "@xlong/ws";
 
 const client = new WS(url);
 client.on("message.test", messageFn);

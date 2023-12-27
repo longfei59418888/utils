@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { WsOption } from './types';
-import Events from 'xl_events';
+import Events from '@xlong/events';
 declare const defaultOption: {
     pingTime: number;
     timeout: number;
