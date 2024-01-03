@@ -1,6 +1,6 @@
 {
-  "name": "@xlong/events",
-  "version": "1.0.1",
+  "name": "@xlong/request",
+  "version": "1.0.0",
   "description": "wangxiaolong utils",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -17,5 +17,8 @@
     "lib",
     "types"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "axios": "^1.6.3",
+    "path-to-regexp": "^6.2.1"
+  }
 }
