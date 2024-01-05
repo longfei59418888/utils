@@ -1,5 +1,5 @@
 import { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
-import nock from 'nock'
+import * as nock from 'nock'
 
 import mockLocalStorage from '../../../jest/mocks/localstrage'
 import mockLocation from '../../../jest/mocks/location'
