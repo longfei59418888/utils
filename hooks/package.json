@@ -1,0 +1,16 @@
+{
+  "name": "@xlong/ci",
+  "version": "1.0.0",
+  "description": "wangxiaolong utils",
+  "bin": {
+    "ci_npm_install": "bin/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "bin"
+  ],
+  "dependencies": {
+    "axios": "^1.6.3"
+  }
+}

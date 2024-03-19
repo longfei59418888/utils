@@ -5,7 +5,7 @@ docker image 介绍
 ### longfei59418/ci_build
 
 ###### 用于安装依赖包，显示了依赖缓存，自动构建
-###### https://hub.docker.com/repository/docker/longfei59418/ci_build/general
+###### https://hub.docker.com/r/longfei59418/ci_build
 
 ```shell
 docker run --rm  -v $PWD:/project -v /home/.npm_cache/{PROJECT_NAME}:/cache -e files="node_modules,src" -e command="yarn run build;yarn run test"  longfei59418/ci_build:node-20.10-slim-v1

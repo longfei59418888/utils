@@ -1,0 +1,17 @@
+export const STORAGE_LOGIN_KEY = 'STORAGE_LOGIN_KEY'
+export const CODE_NO_LOGIN = 'CODE_NO_LOGIN'
+export const CODE_LOGIN_INVALID = 'CODE_LOGIN_INVALID'
+
+export const ERROR_STATUS_CODE_SERVER = 500
+
+// 未登录
+export const ERROR_STATUS_CODE_UNAUTHORIZED = 401
+
+// 无权限
+export const ERROR_STATUS_CODE_FORBIDDEN = 403
+
+// 结构不存在
+export const ERROR_STATUS_CODE_NOT_FOUND = 404
+
+//  请求方法不支持、header参数不支持
+export const ERROR_STATUS_CODE_METHOD_NOT_ALLOWED = 405

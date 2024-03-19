@@ -9,6 +9,7 @@ import {
 } from './interceptors'
 import { Config, Interceptor, ReturnData } from './propsType'
 
+export * as Const from './const'
 export * as Interceptor from './interceptors'
 
 let axiosInstance: AxiosInstance
@@ -29,6 +30,16 @@ export const initConfig = (
     timeout: 60000,
     ...params,
   })
+  /*
+   * loginInterceptorRequest
+   * addInterceptorsRequests
+   * logInterceptorRequest
+   *
+   * logInterceptorResponse
+   * loginInterceptorResponse
+   * addInterceptorsResponse
+   *
+   * */
   if (IS_DEBUG) addInterceptors(logInterceptorResponse)
 
   loginInterceptorConfig &&
@@ -66,13 +77,13 @@ export const toast = async <D>(data: ReturnData<D>): Promise<D> => {
 export const post = async <T, D = unknown>(
   url: string,
   data?: D,
-  config?: AxiosRequestConfig<unknown>,
+  config?: AxiosRequestConfig<unknown> & { signalName?: string },
 ): Promise<T> => axiosInstance.post(url, data, config)
 
 export const get = async <T, D = unknown>(
   url: string,
   params?: D,
-  config?: AxiosRequestConfig<unknown>,
+  config?: AxiosRequestConfig<unknown> & { signalName?: string },
 ): Promise<T> =>
   axiosInstance.get(url, {
     params,

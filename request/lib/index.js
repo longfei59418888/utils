@@ -4,12 +4,14 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.toast = exports.post = exports.initConfig = exports.get = exports["default"] = exports.data = exports.compile = exports.addInterceptors = exports.Interceptor = void 0;
+exports.toast = exports.post = exports.initConfig = exports.get = exports["default"] = exports.data = exports.compile = exports.addInterceptors = exports.Interceptor = exports.Const = void 0;
 var _axios = _interopRequireDefault(require("axios"));
 var _pathToRegexp = require("path-to-regexp");
 var _interceptors = _interopRequireWildcard(require("./interceptors"));
 var _Interceptor = _interceptors;
 exports.Interceptor = _interceptors;
+var _Const = _interopRequireWildcard(require("./const"));
+exports.Const = _Const;
 var _excluded = ["IS_DEBUG", "dataInterceptor", "loginInterceptorConfig", "interceptors"];
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
@@ -38,6 +40,16 @@ var initConfig = exports.initConfig = function initConfig(config, callback) {
   axiosInstance = _axios["default"].create(_objectSpread({
     timeout: 60000
   }, params));
+  /*
+   * loginInterceptorRequest
+   * addInterceptorsRequests
+   * logInterceptorRequest
+   *
+   * logInterceptorResponse
+   * loginInterceptorResponse
+   * addInterceptorsResponse
+   *
+   * */
   if (IS_DEBUG) addInterceptors(_interceptors.logInterceptorResponse);
   loginInterceptorConfig && addInterceptors((0, _interceptors.loginInterceptor)(loginInterceptorConfig));
   dataInterceptor && addInterceptors(_interceptors.dataInterceptorResponse);

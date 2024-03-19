@@ -1,2 +1,2 @@
-declare const initProject: (name: string) => void;
+declare const initProject: (name: string, projectName?: string) => void;
 export default initProject;

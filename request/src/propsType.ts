@@ -8,7 +8,7 @@ export interface ReturnData<D> {
 
 export interface LoginInterceptorConfig {
   STORAGE_LOGIN_KEY?: string
-  PAGE_LOGIN: string
+  PAGE_LOGIN?: string
   NETWORK_ERROR_TIP?: string
   ERROR_LOGIN_CODE?: number
 }

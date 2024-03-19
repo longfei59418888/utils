@@ -1,6 +1,7 @@
 import Axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import { match } from 'path-to-regexp'
 
+import * as Constants from '../const'
 import { LoginInterceptorConfig } from '../propsType'
 
 const SKIP_INJECT_TOKEN: string[] = []
@@ -17,7 +18,7 @@ export const removeApiSkipInterceptor = (path: string) => {
 
 export const loginInterceptor =
   ({
-    STORAGE_LOGIN_KEY = 'STORAGE_LOGIN_KEY',
+    STORAGE_LOGIN_KEY = Constants.STORAGE_LOGIN_KEY,
     PAGE_LOGIN,
     NETWORK_ERROR_TIP = '请求失败...',
     ERROR_LOGIN_CODE,
@@ -32,9 +33,10 @@ export const loginInterceptor =
         ) {
           const token = localStorage.getItem(STORAGE_LOGIN_KEY)
           if (!token) {
-            location.href = PAGE_LOGIN
+            PAGE_LOGIN && (location.href = PAGE_LOGIN)
             return Promise.reject({
               msg: 'token 不存在',
+              code: Constants.CODE_NO_LOGIN,
             })
           }
           config.headers.Authorization = token
@@ -50,8 +52,11 @@ export const loginInterceptor =
           return Promise.reject({ msg: NETWORK_ERROR_TIP, ...error })
         const { status } = error.response
         if (ERROR_LOGIN_CODE && status === ERROR_LOGIN_CODE) {
-          location.href = PAGE_LOGIN
-          return Promise.reject({ msg: '登陆过期' })
+          PAGE_LOGIN && (location.href = PAGE_LOGIN)
+          return Promise.reject({
+            msg: '登陆过期',
+            code: Constants.CODE_LOGIN_INVALID,
+          })
         }
         return Promise.reject(error)
       },
