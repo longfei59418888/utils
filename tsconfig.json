@@ -6,9 +6,7 @@
     "tests/**/*.ts",
     "global.d.ts"
   ],
-  "exclude": [
-    "*node_modules"
-  ],
+  "exclude": ["*node_modules"],
   "compilerOptions": {
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -26,7 +24,7 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "strictPropertyInitialization": true,
+    "strictPropertyInitialization": false,
     "useUnknownInCatchVariables": true,
     "allowArbitraryExtensions": true,
     "baseUrl": ".",
@@ -36,19 +34,10 @@
     // 模块解析方式：node16、nodenext、node10(node)、classic
     "moduleResolution": "Node",
     "paths": {
-      "@src/*": [
-        "src/*"
-      ]
+      "@src/*": ["src/*"]
     },
-    "typeRoots": [
-      "node_modules/@types",
-      "global.d.ts"
-    ],
-    "types": [
-      "webpack-env",
-      "node",
-      "jest"
-    ],
+    "typeRoots": ["node_modules/@types", "global.d.ts"],
+    "types": ["webpack-env", "node", "jest"],
     "esModuleInterop": true,
     "sourceMap": true,
     "importHelpers": true,

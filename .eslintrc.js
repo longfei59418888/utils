@@ -16,11 +16,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: [
-    'simple-import-sort',
-    '@typescript-eslint',
-    'prettier',
-  ],
+  plugins: ['simple-import-sort', '@typescript-eslint', 'prettier'],
   rules: {
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
@@ -28,5 +24,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
 }
