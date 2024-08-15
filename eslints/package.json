@@ -1,0 +1,29 @@
+{
+  "name": "@xlong-eslint/eslint-plugin",
+  "version": "1.0.0",
+  "description": "wangxiaolong utils",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "typings": "types/index.d.ts",
+  "scripts": {
+    "build": "yarn run clean && yarn run build:cjs && yarn run build:types",
+    "build:cjs": "babel src -d lib --extensions \".ts\" --config-file ../babel.config.js",
+    "build:types": "tsc --outDir types -d --emitDeclarationOnly",
+    "clean": "rimraf es lib types"
+  },
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "lib",
+    "types"
+  ],
+  "dependencies": {
+    "esprima": "^4.0.1",
+    "md5": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/eslint": "^9.6.0",
+    "@types/esprima": "^4.0.6",
+    "@types/md5": "^2.3.5"
+  }
+}
