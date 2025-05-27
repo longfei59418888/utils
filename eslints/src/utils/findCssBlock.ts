@@ -1,4 +1,4 @@
-import {parseModule} from 'esprima'
+import { parseModule } from 'esprima'
 import {
   Identifier,
   TaggedTemplateExpression,

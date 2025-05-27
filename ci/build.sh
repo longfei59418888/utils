@@ -17,4 +17,11 @@ yarn_build(){
 #  docker rmi $IMAGE_NAME
 }
 
-yarn_build
+
+android_build(){
+  VERSION=$1
+  IMAGE_NAME=longfei59418/ci_build:android-ci-v1.0
+  docker build -f ./android.dockerfile -t $IMAGE_NAME .
+}
+
+android_build

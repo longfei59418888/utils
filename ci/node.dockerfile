@@ -13,3 +13,7 @@ WORKDIR /project
 COPY ./bin .
 
 ENTRYPOINT "./bin/install.sh" "-c" "/cache" "-f" "$files"  "-r" "$registry" "-m" "$manager" "-b" "$command"
+
+
+
+ENTRYPOINT "./gradlew" "$command"

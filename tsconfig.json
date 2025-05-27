@@ -30,7 +30,7 @@
     "baseUrl": ".",
     "rootDir": ".",
     // 模块类型：CommonJS、UMD、AMD、ESNext、node16/nodenext
-    "module": "ESNext",
+    "module": "commonjs",
     // 模块解析方式：node16、nodenext、node10(node)、classic
     "moduleResolution": "Node",
     "paths": {

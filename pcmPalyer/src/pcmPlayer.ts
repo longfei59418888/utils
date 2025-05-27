@@ -22,6 +22,7 @@ class PCMPlayer {
   gainNode: GainNode
   interval: NodeJS.Timer
   state: 'INIT' | 'RUNNING' | 'SUSPEND'
+  // 播放音色的时间点
   startTime: number
   endTimer: NodeJS.Timer
   maxValue: number
@@ -63,11 +64,13 @@ class PCMPlayer {
       const requestFrame = () => {
         try {
           const { option, audioCtx, startTime } = this
+          // 音频的时间轴
           if (audioCtx.currentTime) {
             option.requestFrame?.({
               audio: audioCtx,
               totalTime: startTime,
             })
+            // 当前时间大于播放停止的位置
             if (this.startTime < this.audioCtx.currentTime) {
               if (!this.endTimer)
                 this.endTimer = setTimeout(() => {

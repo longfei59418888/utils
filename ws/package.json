@@ -18,6 +18,10 @@
     "types"
   ],
   "dependencies": {
-    "@xlong/events": "^1.0.0"
+    "@xlong/events": "^1.0.0",
+    "websocket": "^1.0.35"
+  },
+  "devDependencies": {
+    "@types/websocket": "^1"
   }
 }

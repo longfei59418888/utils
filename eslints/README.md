@@ -7,9 +7,9 @@
 #### 安装
 
 ```shell
-npm install @xlong-eslint/eslint-plugin
-yarn add @xlong-eslint/eslint-plugin
-pnpm add @xlong-eslint/eslint-plugin
+npm install @xlong/eslint-plugin
+yarn add @xlong/eslint-plugin
+pnpm add @xlong/eslint-plugin
 ```
 
 ### styled-components 配置
@@ -36,7 +36,7 @@ export const center = css`
 ```typescript
 module.exports = {
   ... ,
-  extends: ["eslint:recommended", 'plugin:@xlong-eslint/styledComponents',],
+  extends: ["eslint:recommended", 'plugin:@xlong/styledComponents',],
   parserOptions: {
     ... ,
     styleRuleSameConfig: {

@@ -1,0 +1,19 @@
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+const upperFirstChar = word => {
+  if (typeof word !== 'string' || word === '') throw new Error("typeof source !== 'string");
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
+export function useSafeAreaInsetsStyle(safeAreaEdges = ['top', 'right', 'bottom', 'left'], property = 'padding') {
+  /*
+   * useSafeAreaInsets
+   * 返回安全区域的内边距
+   * */
+  const insets = useSafeAreaInsets();
+  return safeAreaEdges.reduce((acc, value) => {
+    return {
+      ...acc,
+      [`${property}${upperFirstChar(value)}`]: insets[value]
+    };
+  }, {});
+}
+export default useSafeAreaInsetsStyle;

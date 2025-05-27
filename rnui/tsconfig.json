@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-native",
+    "baseUrl": "./src",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "src/__tests__"
+  ]
+}

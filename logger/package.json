@@ -1,0 +1,23 @@
+{
+  "name": "@xlong/logger",
+  "version": "1.0.0",
+  "description": "wangxiaolong utils",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "typings": "types/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && npm run build:cjs && npm run build:types",
+    "build:cjs": "babel src -d lib --extensions \".ts\" --config-file ../babel.config.js",
+    "build:types": "tsc --outDir types -d --emitDeclarationOnly",
+    "clean": "rimraf es lib types"
+  },
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "lib",
+    "types"
+  ],
+  "dependencies": {
+    "dayjs": "^1.11.13"
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "name": "@xlong-eslint/eslint-plugin",
-  "version": "1.0.0",
+  "name": "@xlong/eslint-plugin",
+  "version": "1.0.1",
   "description": "wangxiaolong utils",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -17,6 +17,9 @@
     "lib",
     "types"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "esprima": "^4.0.1",
     "md5": "^2.3.0"

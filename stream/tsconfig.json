@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "noImplicitOverride": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false
+  },
+  "include": ["src/**/*.ts", "global.d.ts"],
+  "exclude": ["src/__tests__"]
+}
