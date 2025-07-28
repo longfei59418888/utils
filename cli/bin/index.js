@@ -60,6 +60,26 @@ function cli() {
       }
     }, _callee2);
   })));
+  _commander["default"].command('init-nextjs').description('初始化一个基于-nextjs的 ssr项目： next + next-intl + next-themes + ts + tailwind + zustand').action( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+    var response;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return (0, _prompts["default"])({
+            type: 'text',
+            name: 'name',
+            message: '输入项目名称！'
+          });
+        case 2:
+          response = _context3.sent;
+          (0, _index["default"])(response.name, 'next-tpl');
+        case 4:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3);
+  })));
   _commander["default"].parse(process.argv);
 }
 cli();
