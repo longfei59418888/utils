@@ -142,7 +142,8 @@ export type ViewExtendPropsWithPress<T = object> = ViewExtendProps<{
     touchableOpacity?: boolean;
     onLongPress?: PressableProps['onLongPress'];
 }> & T;
-export declare const scaleStyle: <T = FlexStyle>(rest: T) => T;
+export declare const scaleStyle: <T = FlexStyle>(rest: T, attrs?: string[]) => T;
+export declare const scale: (value: number) => number;
 export declare const useFlexPropsStyle: <V = ViewProps, F = FlexStyle>({ flex, zIndex, borderRadius, opacity, borderBottomLeftRadius, borderBottomRightRadius, borderTopLeftRadius, borderTopRightRadius, borderColor, widthFull, heightFull, backgroundColor, center: centerProps, ...rest }: ViewExtendProps) => {
     flexStyle: F;
     props: V;

@@ -125,15 +125,16 @@ export const viewPropsBooleans = {
     position: 'static'
   }
 };
-export const scaleStyle = rest => {
+export const scaleStyle = (rest, attrs = []) => {
   for (const attr in rest) {
     const value = rest[attr];
-    if (viewProps.includes(attr) && typeof value === 'number') {
+    if ([...viewProps, 'fontSize', ...attrs].includes(attr) && typeof value === 'number') {
       rest[attr] = PixelRatio.roundToNearestPixel(value * getScale());
     }
   }
   return rest;
 };
+export const scale = value => PixelRatio.roundToNearestPixel(value * getScale());
 export const useFlexPropsStyle = ({
   flex,
   zIndex,

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.viewPropsBooleans = exports.viewProps = exports.useFlexPropsStyle = exports.setDesignWidth = exports.scaleStyle = exports.getScale = void 0;
+exports.viewPropsBooleans = exports.viewProps = exports.useFlexPropsStyle = exports.setDesignWidth = exports.scaleStyle = exports.scale = exports.getScale = void 0;
 var _react = require("react");
 var _reactNative = require("react-native");
 let SCALE = null;
@@ -133,16 +133,19 @@ const viewPropsBooleans = exports.viewPropsBooleans = {
     position: 'static'
   }
 };
-const scaleStyle = rest => {
+const scaleStyle = function (rest) {
+  let attrs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   for (const attr in rest) {
     const value = rest[attr];
-    if (viewProps.includes(attr) && typeof value === 'number') {
+    if ([...viewProps, 'fontSize', ...attrs].includes(attr) && typeof value === 'number') {
       rest[attr] = _reactNative.PixelRatio.roundToNearestPixel(value * getScale());
     }
   }
   return rest;
 };
 exports.scaleStyle = scaleStyle;
+const scale = value => _reactNative.PixelRatio.roundToNearestPixel(value * getScale());
+exports.scale = scale;
 const useFlexPropsStyle = _ref => {
   let {
     flex,

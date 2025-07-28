@@ -15,7 +15,7 @@ export const Screen: FC<
   ViewExtendProps & {
     safeAreaEdges?: Array<Edge>
     barStyle?: null | StatusBarStyle | undefined
-    source: ImageProps['source']
+    source?: ImageProps['source']
     statusBarProps?: StatusBarProps
     resizeMode?: ImageResizeMode
   }

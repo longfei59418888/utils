@@ -123,11 +123,11 @@ export type ViewExtendPropsWithPress<T = object> = ViewExtendProps<{
 }> &
   T
 
-export const scaleStyle = <T = FlexStyle>(rest: T) => {
+export const scaleStyle = <T = FlexStyle>(rest: T, attrs: string[] = []) => {
   for (const attr in rest) {
     const value = rest[attr as keyof T]
     if (
-      viewProps.includes(attr as FlexStyleProps) &&
+      [...viewProps, 'fontSize', ...attrs].includes(attr as FlexStyleProps) &&
       typeof value === 'number'
     ) {
       rest[attr as keyof T] = PixelRatio.roundToNearestPixel(
@@ -137,6 +137,9 @@ export const scaleStyle = <T = FlexStyle>(rest: T) => {
   }
   return rest
 }
+
+export const scale = (value: number): number =>
+  PixelRatio.roundToNearestPixel(value * getScale())
 
 export const useFlexPropsStyle = <V = ViewProps, F = FlexStyle>({
   flex,

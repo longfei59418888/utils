@@ -17,6 +17,7 @@ const Screen = _ref => {
     statusBarProps,
     style,
     barStyle,
+    resizeMode = 'cover',
     safeAreaEdges = ['bottom'],
     ...rest
   } = _ref;
@@ -25,7 +26,7 @@ const Screen = _ref => {
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_index.Background, {
       widthFull: true,
       heightFull: true,
-      resizeMode: 'cover',
+      resizeMode: resizeMode,
       source: source,
       children: /*#__PURE__*/(0, _jsxRuntime.jsxs)(_index.Column, {
         widthFull: true,

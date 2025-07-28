@@ -38,3 +38,14 @@ xlong init-taro-mini
 - 访问工具页面 pkg-demo/pages/home/index
 
 
+##### 初始化 taro 小程序 项目
+
+```shell
+# 使用文档
+xlong -h
+
+# 创建基于webpack的react项目
+xlong init-nextjs
+```
+
+- 

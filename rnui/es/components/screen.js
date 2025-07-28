@@ -9,6 +9,7 @@ export const Screen = ({
   statusBarProps,
   style,
   barStyle,
+  resizeMode = 'cover',
   safeAreaEdges = ['bottom'],
   ...rest
 }) => {
@@ -17,7 +18,7 @@ export const Screen = ({
     return /*#__PURE__*/React.createElement(Background, {
       widthFull: true,
       heightFull: true,
-      resizeMode: 'cover',
+      resizeMode: resizeMode,
       source: source
     }, /*#__PURE__*/React.createElement(Column, _extends({
       widthFull: true,

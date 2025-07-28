@@ -33,12 +33,19 @@ Object.defineProperty(exports, "Screen", {
     return _screen.default;
   }
 });
+Object.defineProperty(exports, "Span", {
+  enumerable: true,
+  get: function () {
+    return _span.default;
+  }
+});
 exports.useSafeAreaInsetsStyle = exports.useFlexPropsStyle = void 0;
 var _column = _interopRequireDefault(require("./components/column"));
 var _row = _interopRequireDefault(require("./components/row"));
 var _img = _interopRequireDefault(require("./components/img"));
 var _background = _interopRequireDefault(require("./components/background"));
 var _screen = _interopRequireDefault(require("./components/screen"));
+var _span = _interopRequireDefault(require("./components/span"));
 var _useFlexPropsStyle = _interopRequireWildcard(require("./hooks/useFlexPropsStyle"));
 exports.useFlexPropsStyle = _useFlexPropsStyle;
 var _useSafeAreaInsetsStyle = _interopRequireWildcard(require("./hooks/useSafeAreaInsetsStyle"));

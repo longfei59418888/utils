@@ -48,6 +48,19 @@ function cli() {
       })
       initProject(response.name, 'miniprogram-taro')
     })
+  commander
+    .command('init-nextjs')
+    .description(
+      '初始化一个基于-nextjs的 ssr项目： next + next-intl + next-themes + ts + tailwind + zustand',
+    )
+    .action(async () => {
+      const response = await prompts({
+        type: 'text',
+        name: 'name',
+        message: '输入项目名称！',
+      })
+      initProject(response.name, 'next-tpl')
+    })
   commander.parse(process.argv)
 }
 

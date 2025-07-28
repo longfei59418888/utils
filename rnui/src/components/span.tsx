@@ -14,6 +14,7 @@ import {
 
 export interface TextProps extends RNTextProps {
   text?: string
+  fontFamily?: string
   style?: StyleProp<TextStyle>
   color?: string
   lineHeight?: number
@@ -37,6 +38,7 @@ export function Span(
     textAlignRight,
     size = 16,
     text,
+    fontFamily,
     children,
     style,
     ...rest
@@ -51,7 +53,7 @@ export function Span(
       lineHeight: PixelRatio.roundToNearestPixel(size * 1.5 * scale),
       height: PixelRatio.roundToNearestPixel(size * 1.5 * scale),
     },
-    { color: color },
+    { color: color, fontFamily },
     lineHeight
       ? {
           lineHeight: PixelRatio.roundToNearestPixel(lineHeight * scale),
