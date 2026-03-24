@@ -140,6 +140,7 @@ export type ViewExtendProps<T = object> = ViewProps & Partial<Record<FlexValue, 
 export type ViewExtendPropsWithPress<T = object> = ViewExtendProps<{
     onPress?: PressableProps['onPress'];
     touchableOpacity?: boolean;
+    touchableScale?: boolean;
     onLongPress?: PressableProps['onLongPress'];
 }> & T;
 export declare const scaleStyle: <T = FlexStyle>(rest: T, attrs?: string[]) => T;

@@ -1,0 +1,14 @@
+# Skill: upload_to_obs
+## 上传图片到华为云 obs 上面，并返回公共路径，返回路径之后删除本地文件
+name: upload_to_obs
+description: 上传图片到华为云 obs 上面，并返回公共路径，返回路径之后删除本地文件
+
+inputs:
+  file_path:
+    type: string
+    description: Local image path
+
+outputs:
+  url:
+    type: string
+    description: Uploaded image public URL

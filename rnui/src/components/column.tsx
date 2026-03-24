@@ -2,7 +2,7 @@ import {
   useFlexPropsStyle,
   ViewExtendPropsWithPress,
 } from '../hooks/useFlexPropsStyle'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Pressable, TouchableOpacity, View } from 'react-native'
 
 export const Column: FC<ViewExtendPropsWithPress> = (props) => {
@@ -10,11 +10,15 @@ export const Column: FC<ViewExtendPropsWithPress> = (props) => {
     style,
     onPress,
     touchableOpacity = false,
+    touchableScale = true,
     onLongPress,
     children,
     ...rest
   } = props
   const flexPropsStyle = useFlexPropsStyle(rest)
+  const [scale, setScale] = useState(1)
+  const onPressIn = () => touchableScale && setScale(0.9)
+  const onPressOut = () => setScale(1)
   if (onPress && touchableOpacity)
     return (
       <TouchableOpacity onPress={onPress}>
@@ -27,9 +31,13 @@ export const Column: FC<ViewExtendPropsWithPress> = (props) => {
     )
   if (onPress || onLongPress)
     return (
-      <Pressable onPress={onPress} onLongPress={onLongPress}>
+      <Pressable
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        onPress={onPress}
+        onLongPress={onLongPress}>
         <View
-          style={[flexPropsStyle.flexStyle, style]}
+          style={[flexPropsStyle.flexStyle, style, { transform: [{ scale }] }]}
           {...flexPropsStyle.props}>
           {children}
         </View>

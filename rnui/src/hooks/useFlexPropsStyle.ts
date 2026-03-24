@@ -119,6 +119,7 @@ export type ViewExtendProps<T = object> = ViewProps &
 export type ViewExtendPropsWithPress<T = object> = ViewExtendProps<{
   onPress?: PressableProps['onPress']
   touchableOpacity?: boolean
+  touchableScale?: boolean
   onLongPress?: PressableProps['onLongPress']
 }> &
   T

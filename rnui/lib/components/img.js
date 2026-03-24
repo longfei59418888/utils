@@ -12,6 +12,7 @@ const Img = _ref => {
   let {
     source,
     touchableOpacity = false,
+    touchableScale = true,
     size,
     resizeMode = 'contain',
     onPress,
@@ -19,6 +20,9 @@ const Img = _ref => {
     ...props
   } = _ref;
   const propsStyle = (0, _useFlexPropsStyle.useFlexPropsStyle)(props);
+  const [scale, setScale] = (0, _react.useState)(1);
+  const onPressIn = () => touchableScale && setScale(0.9);
+  const onPressOut = () => setScale(1);
   const styles = (0, _react.useMemo)(() => {
     if (!size) return {};
     if (typeof size === 'number') {
@@ -45,12 +49,18 @@ const Img = _ref => {
       })
     });
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Pressable, {
+      onPressIn: onPressIn,
+      onPressOut: onPressOut,
       onPress: onPress,
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Image, {
         source: source,
         style: [{
           resizeMode
-        }, propsStyle.flexStyle, styles, style],
+        }, propsStyle.flexStyle, styles, style, {
+          transform: [{
+            scale
+          }]
+        }],
         ...propsStyle.props
       })
     });
