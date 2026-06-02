@@ -1,0 +1,47 @@
+# Skill: figma-image
+## 从 Figma 下载图片并上传到华为云 OBS
+name: figma-image
+description: 从 Figma 下载图片并上传到华为云 OBS，返回 CDN URL 并注册到常量文件
+
+inputs:
+  figma_url:
+    type: string
+    description: Figma 文件或节点链接，如 https://www.figma.com/design/xxx?node-id=xxx
+  image_name:
+    type: string
+    description: 图片名称，用于 const-img.ts 中的常量键名
+
+outputs:
+  url:
+    type: string
+    description: 上传后的 CDN URL
+  const_key:
+    type: string
+    description: const-img.ts 中注册的常量键名
+
+## 描述场景
+- 从 Figma 链接提取文件 ID 和节点 ID
+- 使用 Figma API 下载图片到临时目录
+- 使用 upload_to_obs skill 上传到华为云 OBS
+- 将 URL 添加到 cli/src/contants/const-img.ts
+
+## 使用场景
+- 使用了 Figma MCP 本地服务器 或者 https://www.figma.com/design 生成代码
+- 使用了 Figma MCP 本地服务器 或者 https://www.figma.com/design 下载图片
+
+## const-img.ts 格式规范
+const-img.ts 格式示例:
+  cdnHost = '//glep-img.golingo.cn'
+  cdnUrlPrefix = `${cdnHost}/glep-web-lang-edu/lang-edu/images`
+  constImg = {
+    submit_error: `${cdnUrlPrefix}/submit_error.png`
+  }
+
+## Code Usage
+代码中使用示例:
+  import { constImg } from '@/contants/const-img'
+  <img src={constImg.buttonStart} />
+
+## CSS Usage
+CSS 中使用示例:
+  background-image: url("//glep-img.golingo.cn/glep-web-lang-edu/lang-edu/images/banner-course.png");
