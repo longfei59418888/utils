@@ -56,6 +56,7 @@ export const setDesignWidth = (width: number) => {
 }
 
 export const viewPropsBooleans = {
+  /* alignContent */
   alignContentFlexStart: { alignContent: 'flex-start' },
   alignContentFlexEnd: { alignContent: 'flex-end' },
   alignContentCenter: { alignContent: 'center' },
@@ -63,16 +64,21 @@ export const viewPropsBooleans = {
   alignContentSpaceBetween: { alignContent: 'space-between' },
   alignContentSpaceAround: { alignContent: 'space-around' },
   alignContentSpaceEvenly: { alignContent: 'space-evenly' },
+  /* alignItems */
   alignItemsFlexStart: { alignItems: 'flex-start' },
-  alignSelfFlexStart: { alignSelf: 'flex-start' },
   alignItemsFlexEnd: { alignItems: 'flex-end' },
-  alignSelfFlexEnd: { alignSelf: 'flex-end' },
   alignItemsCenter: { alignItems: 'center' },
-  alignSelfCenter: { alignSelf: 'center' },
   alignItemsStretch: { alignItems: 'stretch' },
-  alignSelfStretch: { alignSelf: 'stretch' },
   alignItemsBaseline: { alignItems: 'baseline' },
+  /* alignSelf */
+  alignSelfFlexStart: { alignSelf: 'flex-start' },
+  alignSelfFlexEnd: { alignSelf: 'flex-end' },
+  alignSelfCenter: { alignSelf: 'center' },
+  alignSelfStretch: { alignSelf: 'stretch' },
   alignSelfBaseline: { alignSelf: 'baseline' },
+  /* boxSizing */
+
+
   displayNone: { display: 'none' },
   displayFlex: { display: 'flex' },
   flexDirectionRow: { flexDirection: 'row' },
