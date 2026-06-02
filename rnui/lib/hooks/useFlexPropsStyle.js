@@ -196,12 +196,12 @@ const useFlexPropsStyle = _ref => {
     widthFull,
     heightFull,
     backgroundColor,
-    center: centerProps,
+    center,
     ...rest
   } = _ref;
   return (0, _react.useMemo)(() => {
     let flexStyle = {
-      ...(centerProps ? {
+      ...(center ? {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'

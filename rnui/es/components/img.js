@@ -1,7 +1,7 @@
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+import { useMemo } from 'react';
+import { Image as ImageBase, PixelRatio, Pressable } from 'react-native';
 import { getScale, useFlexPropsStyle } from '../hooks/useFlexPropsStyle';
-import { useMemo, useState } from 'react';
-import { Image as ImageBase, PixelRatio, Pressable, TouchableOpacity } from 'react-native';
 export const Img = ({
   source,
   touchableOpacity = false,
@@ -10,12 +10,10 @@ export const Img = ({
   resizeMode = 'contain',
   onPress,
   style,
+  imageStyle,
   ...props
 }) => {
   const propsStyle = useFlexPropsStyle(props);
-  const [scale, setScale] = useState(1);
-  const onPressIn = () => touchableScale && setScale(0.9);
-  const onPressOut = () => setScale(1);
   const styles = useMemo(() => {
     if (!size) return {};
     if (typeof size === 'number') {
@@ -31,27 +29,25 @@ export const Img = ({
     };
   }, [size]);
   if (onPress) {
-    if (touchableOpacity) return /*#__PURE__*/React.createElement(TouchableOpacity, {
-      onPress: onPress
-    }, /*#__PURE__*/React.createElement(ImageBase, _extends({
-      source: source,
-      style: [{
-        resizeMode
-      }, propsStyle.flexStyle, styles, style]
-    }, propsStyle.props)));
     return /*#__PURE__*/React.createElement(Pressable, {
-      onPressIn: onPressIn,
-      onPressOut: onPressOut,
-      onPress: onPress
+      onPress: onPress,
+      style: ({
+        pressed
+      }) => [touchableScale && pressed ? {
+        transform: [{
+          scale: 0.9
+        }]
+      } : null, touchableOpacity && pressed ? {
+        opacity: 0.2
+      } : null, propsStyle.flexStyle, styles, style]
     }, /*#__PURE__*/React.createElement(ImageBase, _extends({
       source: source,
       style: [{
         resizeMode
-      }, propsStyle.flexStyle, styles, style, {
-        transform: [{
-          scale
-        }]
-      }]
+      }, styles, {
+        height: propsStyle.flexStyle.height,
+        width: propsStyle.flexStyle.width
+      }, imageStyle]
     }, propsStyle.props)));
   }
   return /*#__PURE__*/React.createElement(ImageBase, _extends({

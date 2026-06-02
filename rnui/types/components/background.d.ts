@@ -1,10 +1,5 @@
-import { ImageProps, ImageResizeMode, LayoutChangeEvent, ViewStyle } from 'react-native';
-import { ViewExtendProps } from '../hooks/useFlexPropsStyle';
 import { FC } from 'react';
-export declare const Background: FC<ViewExtendProps<{
-    source: ImageProps['source'];
-    resizeMode?: ImageResizeMode;
-    style?: ViewStyle;
-    onLayout?: ((event: LayoutChangeEvent) => void) | undefined;
-}>>;
+import { ImageBackgroundProps } from 'react-native/Libraries/Image/Image';
+import { ViewExtendProps } from '../hooks/useFlexPropsStyle';
+export declare const Background: FC<ViewExtendProps<ImageBackgroundProps>>;
 export default Background;

@@ -1,6 +1,6 @@
-import { FlexStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import { ViewProps } from 'react-native';
 import { PressableProps } from 'react-native/Libraries/Components/Pressable/Pressable';
+import { FlexStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 export declare const getScale: () => number;
 export declare const viewProps: readonly ["borderBottomWidth", "borderEndWidth", "borderLeftWidth", "borderRightWidth", "borderStartWidth", "borderTopWidth", "borderWidth", "bottom", "rowGap", "gap", "columnGap", "height", "left", "margin", "marginBottom", "marginEnd", "marginHorizontal", "marginLeft", "marginRight", "marginStart", "marginTop", "marginVertical", "maxHeight", "maxWidth", "minHeight", "minWidth", "padding", "paddingBottom", "paddingEnd", "paddingHorizontal", "paddingLeft", "paddingRight", "paddingStart", "paddingTop", "right", "start", "top", "width"];
 export type FlexStyleProps = (typeof viewProps)[number];
@@ -30,37 +30,55 @@ export declare const viewPropsBooleans: {
     alignItemsFlexStart: {
         alignItems: string;
     };
-    alignSelfFlexStart: {
-        alignSelf: string;
-    };
     alignItemsFlexEnd: {
         alignItems: string;
-    };
-    alignSelfFlexEnd: {
-        alignSelf: string;
     };
     alignItemsCenter: {
         alignItems: string;
     };
-    alignSelfCenter: {
-        alignSelf: string;
-    };
     alignItemsStretch: {
         alignItems: string;
-    };
-    alignSelfStretch: {
-        alignSelf: string;
     };
     alignItemsBaseline: {
         alignItems: string;
     };
+    alignSelfFlexStart: {
+        alignSelf: string;
+    };
+    alignSelfFlexEnd: {
+        alignSelf: string;
+    };
+    alignSelfCenter: {
+        alignSelf: string;
+    };
+    alignSelfStretch: {
+        alignSelf: string;
+    };
     alignSelfBaseline: {
         alignSelf: string;
+    };
+    boxSizingBorderBox: {
+        boxSizing: string;
+    };
+    boxSizingContentBox: {
+        boxSizing: string;
+    };
+    directionInherit: {
+        direction: string;
+    };
+    directionLtr: {
+        direction: string;
+    };
+    directionRtl: {
+        direction: string;
     };
     displayNone: {
         display: string;
     };
     displayFlex: {
+        display: string;
+    };
+    displayContents: {
         display: string;
     };
     flexDirectionRow: {
@@ -83,6 +101,12 @@ export declare const viewPropsBooleans: {
     };
     flexWrapReverse: {
         flexWrap: string;
+    };
+    isolationAuto: {
+        isolation: string;
+    };
+    isolationIsolate: {
+        isolation: string;
     };
     justifyContentFlexStart: {
         justifyContent: string;
@@ -123,7 +147,6 @@ export declare const viewPropsBooleans: {
 };
 export type FlexValue = keyof typeof viewPropsBooleans;
 export type ViewExtendProps<T = object> = ViewProps & Partial<Record<FlexValue, boolean>> & Pick<FlexStyle, FlexStyleProps> & {
-    flex?: true | number;
     zIndex?: number;
     borderRadius?: number;
     borderBottomLeftRadius?: number;
@@ -131,9 +154,10 @@ export type ViewExtendProps<T = object> = ViewProps & Partial<Record<FlexValue, 
     borderTopLeftRadius?: number;
     borderTopRightRadius?: number;
     borderColor?: string;
-    widthFull?: boolean;
     opacity?: number;
     backgroundColor?: string;
+    flex?: true | number;
+    widthFull?: boolean;
     heightFull?: boolean;
     center?: boolean;
 } & T;
@@ -145,7 +169,7 @@ export type ViewExtendPropsWithPress<T = object> = ViewExtendProps<{
 }> & T;
 export declare const scaleStyle: <T = FlexStyle>(rest: T, attrs?: string[]) => T;
 export declare const scale: (value: number) => number;
-export declare const useFlexPropsStyle: <V = ViewProps, F = FlexStyle>({ flex, zIndex, borderRadius, opacity, borderBottomLeftRadius, borderBottomRightRadius, borderTopLeftRadius, borderTopRightRadius, borderColor, widthFull, heightFull, backgroundColor, center: centerProps, ...rest }: ViewExtendProps) => {
+export declare const useFlexPropsStyle: <V = ViewProps, F = FlexStyle>({ flex, zIndex, borderRadius, opacity, borderBottomLeftRadius, borderBottomRightRadius, borderTopLeftRadius, borderTopRightRadius, borderColor, widthFull, heightFull, backgroundColor, center, ...rest }: ViewExtendProps) => {
     flexStyle: F;
     props: V;
 };

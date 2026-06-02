@@ -184,12 +184,12 @@ export const useFlexPropsStyle = ({
   widthFull,
   heightFull,
   backgroundColor,
-  center: centerProps,
+  center,
   ...rest
 }) => {
   return useMemo(() => {
     let flexStyle = {
-      ...(centerProps ? {
+      ...(center ? {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'

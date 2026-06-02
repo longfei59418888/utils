@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = exports.Img = void 0;
-var _useFlexPropsStyle = require("../hooks/useFlexPropsStyle");
 var _react = require("react");
 var _reactNative = require("react-native");
+var _useFlexPropsStyle = require("../hooks/useFlexPropsStyle");
 var _jsxRuntime = require("react/jsx-runtime");
 const Img = _ref => {
   let {
@@ -17,12 +17,10 @@ const Img = _ref => {
     resizeMode = 'contain',
     onPress,
     style,
+    imageStyle,
     ...props
   } = _ref;
   const propsStyle = (0, _useFlexPropsStyle.useFlexPropsStyle)(props);
-  const [scale, setScale] = (0, _react.useState)(1);
-  const onPressIn = () => touchableScale && setScale(0.9);
-  const onPressOut = () => setScale(1);
   const styles = (0, _react.useMemo)(() => {
     if (!size) return {};
     if (typeof size === 'number') {
@@ -38,29 +36,28 @@ const Img = _ref => {
     };
   }, [size]);
   if (onPress) {
-    if (touchableOpacity) return /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.TouchableOpacity, {
-      onPress: onPress,
-      children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Image, {
-        source: source,
-        style: [{
-          resizeMode
-        }, propsStyle.flexStyle, styles, style],
-        ...propsStyle.props
-      })
-    });
     return /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Pressable, {
-      onPressIn: onPressIn,
-      onPressOut: onPressOut,
       onPress: onPress,
+      style: _ref2 => {
+        let {
+          pressed
+        } = _ref2;
+        return [touchableScale && pressed ? {
+          transform: [{
+            scale: 0.9
+          }]
+        } : null, touchableOpacity && pressed ? {
+          opacity: 0.2
+        } : null, propsStyle.flexStyle, styles, style];
+      },
       children: /*#__PURE__*/(0, _jsxRuntime.jsx)(_reactNative.Image, {
         source: source,
         style: [{
           resizeMode
-        }, propsStyle.flexStyle, styles, style, {
-          transform: [{
-            scale
-          }]
-        }],
+        }, styles, {
+          height: propsStyle.flexStyle.height,
+          width: propsStyle.flexStyle.width
+        }, imageStyle],
         ...propsStyle.props
       })
     });

@@ -21,6 +21,7 @@ const Background = _ref => {
     source: source,
     resizeMode: resizeMode,
     onLayout: onLayout,
+    ...flexPropsStyle.props,
     style: [flexPropsStyle.flexStyle, style],
     children: children
   });

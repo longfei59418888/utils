@@ -1,11 +1,9 @@
-import { ViewExtendPropsWithPress } from '../hooks/useFlexPropsStyle';
 import { FC } from 'react';
-import { ImageStyle, ImageResizeMode, ImageProps } from 'react-native';
+import { ImageProps, ImageStyle } from 'react-native';
+import { ViewExtendPropsWithPress } from '../hooks/useFlexPropsStyle';
 type sizeType = number | `${number}%`;
-export declare const Img: FC<ViewExtendPropsWithPress<{
-    source: ImageProps['source'];
-    resizeMode?: ImageResizeMode;
+export declare const Img: FC<ViewExtendPropsWithPress<ImageProps & {
     size?: sizeType;
-    style?: ImageStyle;
+    imageStyle?: ImageStyle;
 }>>;
 export default Img;
