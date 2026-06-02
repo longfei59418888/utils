@@ -10,6 +10,7 @@ export const setDesignWidth = width => {
   SCALE = Dimensions.get('screen').width / width;
 };
 export const viewPropsBooleans = {
+  /* alignContent */
   alignContentFlexStart: {
     alignContent: 'flex-start'
   },
@@ -31,42 +32,66 @@ export const viewPropsBooleans = {
   alignContentSpaceEvenly: {
     alignContent: 'space-evenly'
   },
+  /* alignItems */
   alignItemsFlexStart: {
     alignItems: 'flex-start'
-  },
-  alignSelfFlexStart: {
-    alignSelf: 'flex-start'
   },
   alignItemsFlexEnd: {
     alignItems: 'flex-end'
   },
-  alignSelfFlexEnd: {
-    alignSelf: 'flex-end'
-  },
   alignItemsCenter: {
     alignItems: 'center'
-  },
-  alignSelfCenter: {
-    alignSelf: 'center'
   },
   alignItemsStretch: {
     alignItems: 'stretch'
   },
-  alignSelfStretch: {
-    alignSelf: 'stretch'
-  },
   alignItemsBaseline: {
     alignItems: 'baseline'
+  },
+  /* alignSelf */
+  alignSelfFlexStart: {
+    alignSelf: 'flex-start'
+  },
+  alignSelfFlexEnd: {
+    alignSelf: 'flex-end'
+  },
+  alignSelfCenter: {
+    alignSelf: 'center'
+  },
+  alignSelfStretch: {
+    alignSelf: 'stretch'
   },
   alignSelfBaseline: {
     alignSelf: 'baseline'
   },
+  /* boxSizing */
+  boxSizingBorderBox: {
+    boxSizing: 'border-box'
+  },
+  boxSizingContentBox: {
+    boxSizing: 'content-box'
+  },
+  /* direction */
+  directionInherit: {
+    direction: 'inherit'
+  },
+  directionLtr: {
+    direction: 'ltr'
+  },
+  directionRtl: {
+    direction: 'rtl'
+  },
+  /* display */
   displayNone: {
     display: 'none'
   },
   displayFlex: {
     display: 'flex'
   },
+  displayContents: {
+    display: 'contents'
+  },
+  /* flexDirection */
   flexDirectionRow: {
     flexDirection: 'row'
   },
@@ -79,6 +104,7 @@ export const viewPropsBooleans = {
   flexDirectionColumnReverse: {
     flexDirection: 'column-reverse'
   },
+  /* flexWrap */
   flexWrap: {
     flexWrap: 'wrap'
   },
@@ -88,6 +114,14 @@ export const viewPropsBooleans = {
   flexWrapReverse: {
     flexWrap: 'wrap-reverse'
   },
+  /* isolation */
+  isolationAuto: {
+    isolation: 'auto'
+  },
+  isolationIsolate: {
+    isolation: 'isolate'
+  },
+  /* justifyContent */
   justifyContentFlexStart: {
     justifyContent: 'flex-start'
   },
@@ -106,6 +140,7 @@ export const viewPropsBooleans = {
   justifyContentSpaceEvenly: {
     justifyContent: 'space-evenly'
   },
+  /* overflow */
   overflowVisible: {
     overflow: 'visible'
   },
@@ -115,6 +150,7 @@ export const viewPropsBooleans = {
   overflowScroll: {
     overflow: 'scroll'
   },
+  /* position */
   absolute: {
     position: 'absolute'
   },

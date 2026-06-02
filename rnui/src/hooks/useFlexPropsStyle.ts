@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import { FlexStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 import { Dimensions, PixelRatio, ViewProps } from 'react-native'
 import { PressableProps } from 'react-native/Libraries/Components/Pressable/Pressable'
+import { FlexStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 
 let SCALE: number | null = null
 
@@ -77,26 +77,40 @@ export const viewPropsBooleans = {
   alignSelfStretch: { alignSelf: 'stretch' },
   alignSelfBaseline: { alignSelf: 'baseline' },
   /* boxSizing */
-
-
+  boxSizingBorderBox: { boxSizing: 'border-box' },
+  boxSizingContentBox: { boxSizing: 'content-box' },
+  /* direction */
+  directionInherit: { direction: 'inherit' },
+  directionLtr: { direction: 'ltr' },
+  directionRtl: { direction: 'rtl' },
+  /* display */
   displayNone: { display: 'none' },
   displayFlex: { display: 'flex' },
+  displayContents: { display: 'contents' },
+  /* flexDirection */
   flexDirectionRow: { flexDirection: 'row' },
   flexDirectionColumn: { flexDirection: 'column' },
   flexDirectionRowReverse: { flexDirection: 'row-reverse' },
   flexDirectionColumnReverse: { flexDirection: 'column-reverse' },
+  /* flexWrap */
   flexWrap: { flexWrap: 'wrap' },
   flexNoWrap: { flexWrap: 'nowrap' },
   flexWrapReverse: { flexWrap: 'wrap-reverse' },
+  /* isolation */
+  isolationAuto: { isolation: 'auto' },
+  isolationIsolate: { isolation: 'isolate' },
+  /* justifyContent */
   justifyContentFlexStart: { justifyContent: 'flex-start' },
   justifyContentFlexEnd: { justifyContent: 'flex-end' },
   justifyContentCenter: { justifyContent: 'center' },
   justifyContentSpaceBetween: { justifyContent: 'space-between' },
   justifyContentSpaceAround: { justifyContent: 'space-around' },
   justifyContentSpaceEvenly: { justifyContent: 'space-evenly' },
+  /* overflow */
   overflowVisible: { overflow: 'visible' },
   overflowHidden: { overflow: 'hidden' },
   overflowScroll: { overflow: 'scroll' },
+  /* position */
   absolute: { position: 'absolute' },
   relative: { position: 'relative' },
   static: { position: 'static' },
