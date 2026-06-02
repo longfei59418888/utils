@@ -1,29 +1,27 @@
+import { FC, useMemo } from 'react'
+import {
+  Image as ImageBase,
+  ImageProps,
+  ImageStyle,
+  PixelRatio,
+  Pressable,
+} from 'react-native'
+
 import {
   getScale,
   useFlexPropsStyle,
   ViewExtendPropsWithPress,
 } from '../hooks/useFlexPropsStyle'
-import { FC, useMemo, useState } from 'react'
-import {
-  Image as ImageBase,
-  ImageStyle,
-  PixelRatio,
-  ImageResizeMode,
-  ImageProps,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native'
 
 type sizeType = number | `${number}%`
 
 export const Img: FC<
-  ViewExtendPropsWithPress<{
-    source: ImageProps['source']
-    resizeMode?: ImageResizeMode
-    size?: sizeType
-
-    style?: ImageStyle
-  }>
+  ViewExtendPropsWithPress<
+    ImageProps & {
+      size?: sizeType
+      imageStyle?: ImageStyle
+    }
+  >
 > = ({
   source,
   touchableOpacity = false,
@@ -32,12 +30,10 @@ export const Img: FC<
   resizeMode = 'contain',
   onPress,
   style,
+  imageStyle,
   ...props
 }) => {
   const propsStyle = useFlexPropsStyle<ImageProps, ImageStyle>(props)
-  const [scale, setScale] = useState(1)
-  const onPressIn = () => touchableScale && setScale(0.9)
-  const onPressOut = () => setScale(1)
   const styles: ImageStyle = useMemo(() => {
     if (!size) return {}
     if (typeof size === 'number') {
@@ -54,30 +50,26 @@ export const Img: FC<
   }, [size])
 
   if (onPress) {
-    if (touchableOpacity)
-      return (
-        <TouchableOpacity onPress={onPress}>
-          <ImageBase
-            source={source}
-            style={[{ resizeMode }, propsStyle.flexStyle, styles, style]}
-            {...propsStyle.props}
-          />
-        </TouchableOpacity>
-      )
-
     return (
       <Pressable
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
-        onPress={onPress}>
+        onPress={onPress}
+        style={({ pressed }) => [
+          touchableScale && pressed ? { transform: [{ scale: 0.9 }] } : null,
+          touchableOpacity && pressed ? { opacity: 0.2 } : null,
+          propsStyle.flexStyle,
+          styles,
+          style,
+        ]}>
         <ImageBase
           source={source}
           style={[
             { resizeMode },
-            propsStyle.flexStyle,
             styles,
-            style,
-            { transform: [{ scale }] },
+            {
+              height: propsStyle.flexStyle.height,
+              width: propsStyle.flexStyle.width,
+            },
+            imageStyle,
           ]}
           {...propsStyle.props}
         />

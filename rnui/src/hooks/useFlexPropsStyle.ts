@@ -10,7 +10,6 @@ export const getScale = () => {
   return SCALE
 }
 export const viewProps = [
-  'aspectRatio',
   'borderBottomWidth',
   'borderEndWidth',
   'borderLeftWidth',
@@ -19,32 +18,15 @@ export const viewProps = [
   'borderTopWidth',
   'borderWidth',
   'bottom',
-  'end',
   'rowGap',
-  'flexBasis',
-  'flexGrow',
-  'flexShrink',
   'gap',
   'columnGap',
   'height',
-  'inset',
-  'insetBlock',
-  'insetBlockEnd',
-  'insetBlockStart',
-  'insetInline',
-  'insetInlineEnd',
-  'insetInlineStart',
   'left',
   'margin',
   'marginBottom',
-  'marginBlock',
-  'marginBlockEnd',
-  'marginBlockStart',
   'marginEnd',
   'marginHorizontal',
-  'marginInline',
-  'marginInlineEnd',
-  'marginInlineStart',
   'marginLeft',
   'marginRight',
   'marginStart',
@@ -56,14 +38,8 @@ export const viewProps = [
   'minWidth',
   'padding',
   'paddingBottom',
-  'paddingBlock',
-  'paddingBlockEnd',
-  'paddingBlockStart',
   'paddingEnd',
   'paddingHorizontal',
-  'paddingInline',
-  'paddingInlineEnd',
-  'paddingInlineStart',
   'paddingLeft',
   'paddingRight',
   'paddingStart',
@@ -72,7 +48,6 @@ export const viewProps = [
   'start',
   'top',
   'width',
-  'zIndex',
 ] as const
 export type FlexStyleProps = (typeof viewProps)[number]
 
@@ -146,7 +121,6 @@ export type FlexValue = keyof typeof viewPropsBooleans
 export type ViewExtendProps<T = object> = ViewProps &
   Partial<Record<FlexValue, boolean>> &
   Pick<FlexStyle, FlexStyleProps> & {
-    flex?: true | number
     zIndex?: number
     borderRadius?: number
     borderBottomLeftRadius?: number
@@ -154,9 +128,11 @@ export type ViewExtendProps<T = object> = ViewProps &
     borderTopLeftRadius?: number
     borderTopRightRadius?: number
     borderColor?: string
-    widthFull?: boolean
     opacity?: number
     backgroundColor?: string
+
+    flex?: true | number
+    widthFull?: boolean
     heightFull?: boolean
     center?: boolean
   } & T
@@ -200,12 +176,12 @@ export const useFlexPropsStyle = <V = ViewProps, F = FlexStyle>({
   widthFull,
   heightFull,
   backgroundColor,
-  center: centerProps,
+  center,
   ...rest
 }: ViewExtendProps) => {
   return useMemo(() => {
     let flexStyle: FlexStyle = {
-      ...(centerProps
+      ...(center
         ? {
             display: 'flex',
             justifyContent: 'center',

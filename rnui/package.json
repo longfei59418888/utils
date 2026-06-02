@@ -1,6 +1,6 @@
 {
   "name": "@xlong/rnui",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "xiao long wang React Native UI component",
   "main": "lib/index.js",
   "module": "es/index.js",
