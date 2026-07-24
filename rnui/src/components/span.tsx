@@ -1,9 +1,9 @@
 import {
-  getScale,
+  useScale,
   useFlexPropsStyle,
   ViewExtendProps,
 } from '../hooks/useFlexPropsStyle'
-import { ReactNode } from 'react'
+import { memo, ReactNode, useMemo } from 'react'
 import {
   PixelRatio,
   StyleProp,
@@ -22,7 +22,7 @@ export interface TextProps extends RNTextProps {
   children?: ReactNode
 }
 
-export function Span(
+export const Span = memo(function Span(
   props: Omit<ViewExtendProps, 'style'> &
     TextProps &
     Partial<
@@ -45,40 +45,55 @@ export function Span(
   } = props
   const propsStyle = useFlexPropsStyle(rest)
   const content = text || children
-  const scale = getScale()
+  const scale = useScale()
 
-  const styles: StyleProp<TextStyle> = [
-    {
-      fontSize: PixelRatio.roundToNearestPixel(size * scale),
-      lineHeight: PixelRatio.roundToNearestPixel(size * 1.5 * scale),
-      height: PixelRatio.roundToNearestPixel(size * 1.5 * scale),
-    },
-    { color: color, fontFamily },
-    lineHeight
-      ? {
-          lineHeight: PixelRatio.roundToNearestPixel(lineHeight * scale),
-          height: PixelRatio.roundToNearestPixel(lineHeight * scale),
-        }
-      : {},
-    propsStyle.flexStyle,
-    {
-      textAlign: textAlignCenter
-        ? 'center'
-        : textAlignJustify
-          ? 'justify'
-          : textAlignRight
-            ? 'right'
-            : textAlignLeft
-              ? 'left'
-              : undefined,
-    },
-    style,
-  ]
+  const styles = useMemo<StyleProp<TextStyle>>(
+    () => [
+      {
+        fontSize: PixelRatio.roundToNearestPixel(size * scale),
+        lineHeight: PixelRatio.roundToNearestPixel(size * 1.5 * scale),
+        height: PixelRatio.roundToNearestPixel(size * 1.5 * scale),
+      },
+      { color: color, fontFamily },
+      lineHeight
+        ? {
+            lineHeight: PixelRatio.roundToNearestPixel(lineHeight * scale),
+            height: PixelRatio.roundToNearestPixel(lineHeight * scale),
+          }
+        : {},
+      propsStyle.flexStyle,
+      {
+        textAlign: textAlignCenter
+          ? 'center'
+          : textAlignJustify
+            ? 'justify'
+            : textAlignRight
+              ? 'right'
+              : textAlignLeft
+                ? 'left'
+                : undefined,
+      },
+      style,
+    ],
+    [
+      size,
+      scale,
+      color,
+      fontFamily,
+      lineHeight,
+      propsStyle.flexStyle,
+      textAlignCenter,
+      textAlignJustify,
+      textAlignRight,
+      textAlignLeft,
+      style,
+    ],
+  )
   return (
     <RNText {...propsStyle.props} style={styles}>
       {content}
     </RNText>
   )
-}
+})
 
 export default Span

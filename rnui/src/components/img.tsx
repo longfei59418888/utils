@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import {
   Image as ImageBase,
   ImageProps,
@@ -8,21 +8,14 @@ import {
 } from 'react-native'
 
 import {
-  getScale,
+  useScale,
   useFlexPropsStyle,
   ViewExtendPropsWithPress,
 } from '../hooks/useFlexPropsStyle'
 
 type sizeType = number | `${number}%`
 
-export const Img: FC<
-  ViewExtendPropsWithPress<
-    ImageProps & {
-      size?: sizeType
-      imageStyle?: ImageStyle
-    }
-  >
-> = ({
+export const Img = memo(function Img({
   source,
   touchableOpacity = false,
   touchableScale = true,
@@ -32,26 +25,30 @@ export const Img: FC<
   style,
   imageStyle,
   ...props
-}) => {
+}: ViewExtendPropsWithPress<
+  ImageProps & {
+    size?: sizeType
+    imageStyle?: ImageStyle
+  }
+>) {
   const propsStyle = useFlexPropsStyle<ImageProps, ImageStyle>(props)
+  const scale = useScale()
   const styles: ImageStyle = useMemo(() => {
     if (!size) return {}
-    if (typeof size === 'number') {
-      size = PixelRatio.roundToNearestPixel(size * getScale())
-      return {
-        height: size,
-        width: size,
-      }
-    }
+    const dimension =
+      typeof size === 'number'
+        ? PixelRatio.roundToNearestPixel(size * scale)
+        : size
     return {
-      height: size,
-      width: size,
+      height: dimension,
+      width: dimension,
     }
-  }, [size])
+  }, [size, scale])
 
   if (onPress) {
     return (
       <Pressable
+        accessibilityRole="imagebutton"
         onPress={onPress}
         style={({ pressed }) => [
           touchableScale && pressed ? { transform: [{ scale: 0.9 }] } : null,
@@ -84,6 +81,6 @@ export const Img: FC<
       {...propsStyle.props}
     />
   )
-}
+})
 
 export default Img

@@ -1,49 +1,134 @@
 # RNUI Components
 
-# 安装
+一套基于设计稿宽度自动缩放的 React Native 响应式组件库。通过 `setDesignWidth` 设定设计稿宽度，组件的数值型布局参数会按当前屏幕宽度自动等比缩放，并且随屏幕旋转 / 折叠屏 / 分屏实时更新。
+
+## 目录
+
+- [安装](#安装)
+- [快速上手](#快速上手)
+- [使用前提：setDesignWidth](#使用前提setdesignwidth)
+- [导入方式](#导入方式)
+- [共享参数](#共享参数)
+  - [数值型布局参数](#数值型布局参数)
+  - [布尔快捷布局参数](#布尔快捷布局参数)
+  - [扩展参数](#扩展参数)
+  - [点击参数](#点击参数)
+- [组件](#组件)
+  - [Column](#column)
+  - [Row](#row)
+  - [Img](#img)
+  - [Background](#background)
+  - [Screen](#screen)
+  - [Span](#span)
+- [Hooks 与工具函数](#hooks-与工具函数)
+  - [setDesignWidth](#setdesignwidthwidth-number)
+  - [useScale](#usescale-number)
+  - [getScale](#getscale-number)
+  - [scale](#scalevalue-number-number)
+  - [scaleStyle](#scalestylestyle-attrs)
+  - [useFlexPropsStyle](#useflexpropsstyleprops)
+  - [useSafeAreaInsetsStyle](#usesafeareainsetsstyleedges-property)
+- [组合示例](#组合示例)
+- [注意事项](#注意事项)
+
+## 安装
 
 ```shell
 npm install @xlong/rnui
+# 或
 yarn add @xlong/rnui
+# 或
 pnpm add @xlong/rnui
 ```
 
-# 使用方法
+### peerDependencies
 
-包含组件：
+需要宿主项目自行安装以下依赖：
 
-- `Column`
-- `Row`
-- `Img`
-- `Background`
-- `Screen`
-- `Span`
-
-## 使用前提
-
-RNUI 内部会对很多数值型布局参数做缩放处理，缩放比例来自 `setDesignWidth(width)`。
-
-建议在应用启动时先初始化一次：
-
-```ts
-import { useFlexPropsStyle } from '@xlong/rnui'
-
-useFlexPropsStyle.setDesignWidth(750)
+```jsonc
+{
+  "react": ">=18.2.0",
+  "react-native": ">=0.74.5",
+  "react-native-safe-area-context": ">=4.10.5"
+}
 ```
 
-如果没有先调用 `setDesignWidth`，内部依赖缩放的方法在运行时会报错。
+`Screen` / `useSafeAreaInsetsStyle` 依赖安全区，请确保应用根节点已包裹 `SafeAreaProvider`：
+
+```tsx
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <RootNavigator />
+    </SafeAreaProvider>
+  )
+}
+```
+
+## 快速上手
+
+```tsx
+import { setDesignWidth, Screen, Column, Row, Span, Img } from '@xlong/rnui'
+
+// 1. 应用启动时初始化一次设计稿宽度（例如设计稿基于 750）
+setDesignWidth(750)
+
+// 2. 直接使用组件，数值型参数会按屏幕宽度自动缩放
+export default function Home() {
+  return (
+    <Screen backgroundColor="#f5f5f5" safeAreaEdges={['top', 'bottom']}>
+      <Column flex padding={24} gap={16}>
+        <Span text="欢迎使用 RNUI" size={28} color="#111" />
+        <Row alignItemsCenter justifyContentSpaceBetween>
+          <Span text="今日推荐" size={16} />
+          <Img size={20} source={require('./assets/arrow.png')} />
+        </Row>
+      </Column>
+    </Screen>
+  )
+}
+```
+
+## 使用前提：setDesignWidth
+
+RNUI 会对数值型布局参数做缩放处理，缩放比例 = `当前 window 宽度 / 设计稿宽度`。
+
+请在应用启动时（组件渲染之前）初始化一次：
+
+```ts
+import { setDesignWidth } from '@xlong/rnui'
+
+setDesignWidth(750) // 传入设计稿宽度
+```
+
+> ⚠️ 如果没有先调用 `setDesignWidth`，所有依赖缩放的方法（`useScale` / `getScale` / `scale` / `useFlexPropsStyle` 以及各组件）在运行时会抛出错误：
+> `@xlong/rnui: please call setDesignWidth(width) before rendering.`
+
+**响应式说明**：缩放基于 `useWindowDimensions`，屏幕旋转、折叠屏展开、分屏尺寸变化时，组件尺寸会自动重新计算并重渲染，无需手动处理。
 
 ## 导入方式
 
+所有组件、Hooks 和工具函数均从包根部平铺导出，可直接按需引入：
+
 ```tsx
 import {
+  // 组件
   Column,
   Row,
   Img,
   Background,
   Screen,
   Span,
+  // Hooks 与工具函数
+  setDesignWidth,
+  useScale,
+  getScale,
+  scale,
+  scaleStyle,
   useFlexPropsStyle,
+  useSafeAreaInsetsStyle,
 } from '@xlong/rnui'
 ```
 
@@ -55,44 +140,7 @@ import {
 
 这些参数传数字时会按设计稿宽度缩放：
 
-- `borderBottomWidth`
-- `borderEndWidth`
-- `borderLeftWidth`
-- `borderRightWidth`
-- `borderStartWidth`
-- `borderTopWidth`
-- `borderWidth`
-- `bottom`
-- `rowGap`
-- `gap`
-- `columnGap`
-- `height`
-- `left`
-- `margin`
-- `marginBottom`
-- `marginEnd`
-- `marginHorizontal`
-- `marginLeft`
-- `marginRight`
-- `marginStart`
-- `marginTop`
-- `marginVertical`
-- `maxHeight`
-- `maxWidth`
-- `minHeight`
-- `minWidth`
-- `padding`
-- `paddingBottom`
-- `paddingEnd`
-- `paddingHorizontal`
-- `paddingLeft`
-- `paddingRight`
-- `paddingStart`
-- `paddingTop`
-- `right`
-- `start`
-- `top`
-- `width`
+`borderBottomWidth`、`borderEndWidth`、`borderLeftWidth`、`borderRightWidth`、`borderStartWidth`、`borderTopWidth`、`borderWidth`、`bottom`、`rowGap`、`gap`、`columnGap`、`height`、`left`、`margin`、`marginBottom`、`marginEnd`、`marginHorizontal`、`marginLeft`、`marginRight`、`marginStart`、`marginTop`、`marginVertical`、`maxHeight`、`maxWidth`、`minHeight`、`minWidth`、`padding`、`paddingBottom`、`paddingEnd`、`paddingHorizontal`、`paddingLeft`、`paddingRight`、`paddingStart`、`paddingTop`、`right`、`start`、`top`、`width`
 
 示例：
 
@@ -100,91 +148,26 @@ import {
 <Column paddingHorizontal={24} marginTop={16} width={300} />
 ```
 
+> 完整列表也可通过导出的 `viewProps` 常量在代码中获取。
+
 ### 布尔快捷布局参数
 
-这些参数会直接映射成固定样式。
+这些参数会直接映射成固定样式（传 `true` 生效）。
 
-`alignContent`
-
-- `alignContentFlexStart`
-- `alignContentFlexEnd`
-- `alignContentCenter`
-- `alignContentStretch`
-- `alignContentSpaceBetween`
-- `alignContentSpaceAround`
-- `alignContentSpaceEvenly`
-
-`alignItems`
-
-- `alignItemsFlexStart`
-- `alignItemsFlexEnd`
-- `alignItemsCenter`
-- `alignItemsStretch`
-- `alignItemsBaseline`
-
-`alignSelf`
-
-- `alignSelfFlexStart`
-- `alignSelfFlexEnd`
-- `alignSelfCenter`
-- `alignSelfStretch`
-- `alignSelfBaseline`
-
-`boxSizing`
-
-- `boxSizingBorderBox`
-- `boxSizingContentBox`
-
-`direction`
-
-- `directionInherit`
-- `directionLtr`
-- `directionRtl`
-
-`display`
-
-- `displayNone`
-- `displayFlex`
-- `displayContents`
-
-`flexDirection`
-
-- `flexDirectionRow`
-- `flexDirectionColumn`
-- `flexDirectionRowReverse`
-- `flexDirectionColumnReverse`
-
-`flexWrap`
-
-- `flexWrap`
-- `flexNoWrap`
-- `flexWrapReverse`
-
-`isolation`
-
-- `isolationAuto`
-- `isolationIsolate`
-
-`justifyContent`
-
-- `justifyContentFlexStart`
-- `justifyContentFlexEnd`
-- `justifyContentCenter`
-- `justifyContentSpaceBetween`
-- `justifyContentSpaceAround`
-- `justifyContentSpaceEvenly`
-
-`overflow`
-
-- `overflowVisible`
-- `overflowHidden`
-- `overflowScroll`
-
-`position`
-
-- `absolute`
-- `relative`
-- `static`
+| 分组 | 可用参数 |
+| --- | --- |
+| `alignContent` | `alignContentFlexStart`、`alignContentFlexEnd`、`alignContentCenter`、`alignContentStretch`、`alignContentSpaceBetween`、`alignContentSpaceAround`、`alignContentSpaceEvenly` |
+| `alignItems` | `alignItemsFlexStart`、`alignItemsFlexEnd`、`alignItemsCenter`、`alignItemsStretch`、`alignItemsBaseline` |
+| `alignSelf` | `alignSelfFlexStart`、`alignSelfFlexEnd`、`alignSelfCenter`、`alignSelfStretch`、`alignSelfBaseline` |
+| `boxSizing` | `boxSizingBorderBox`、`boxSizingContentBox` |
+| `direction` | `directionInherit`、`directionLtr`、`directionRtl` |
+| `display` | `displayNone`、`displayFlex`、`displayContents` |
+| `flexDirection` | `flexDirectionRow`、`flexDirectionColumn`、`flexDirectionRowReverse`、`flexDirectionColumnReverse` |
+| `flexWrap` | `flexWrap`、`flexNoWrap`、`flexWrapReverse` |
+| `isolation` | `isolationAuto`、`isolationIsolate` |
+| `justifyContent` | `justifyContentFlexStart`、`justifyContentFlexEnd`、`justifyContentCenter`、`justifyContentSpaceBetween`、`justifyContentSpaceAround`、`justifyContentSpaceEvenly` |
+| `overflow` | `overflowVisible`、`overflowHidden`、`overflowScroll` |
+| `position` | `absolute`、`relative`、`static` |
 
 示例：
 
@@ -192,30 +175,29 @@ import {
 <Row alignItemsCenter justifyContentSpaceBetween />
 ```
 
+> 完整映射也可通过导出的 `viewPropsBooleans` 常量在代码中获取。
+
 ### 扩展参数
 
 这些参数是 RNUI 在原生样式基础上的补充：
 
-- `flex?: true | number`
-- `widthFull?: boolean`
-- `heightFull?: boolean`
-- `center?: boolean`
-- `zIndex?: number`
-- `borderRadius?: number`
-- `borderBottomLeftRadius?: number`
-- `borderBottomRightRadius?: number`
-- `borderTopLeftRadius?: number`
-- `borderTopRightRadius?: number`
-- `borderColor?: string`
-- `opacity?: number`
-- `backgroundColor?: string`
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| `flex` | `true \| number` | `flex={true}` 等价于 `flex: 1` |
+| `widthFull` | `boolean` | 等价于 `width: '100%'` |
+| `heightFull` | `boolean` | 等价于 `height: '100%'` |
+| `center` | `boolean` | 同时设置横向和纵向居中 |
+| `zIndex` | `number` | 层级 |
+| `borderRadius` | `number` | 圆角 |
+| `borderBottomLeftRadius` | `number` | 左下圆角 |
+| `borderBottomRightRadius` | `number` | 右下圆角 |
+| `borderTopLeftRadius` | `number` | 左上圆角 |
+| `borderTopRightRadius` | `number` | 右上圆角 |
+| `borderColor` | `string` | 边框颜色 |
+| `opacity` | `number` | 透明度 |
+| `backgroundColor` | `string` | 背景色 |
 
-说明：
-
-- `flex={true}` 等价于 `flex: 1`
-- `widthFull` 等价于 `width: '100%'`
-- `heightFull` 等价于 `height: '100%'`
-- `center` 会同时设置横向和纵向居中
+> 注意：`borderRadius` 等扩展参数不参与缩放，直接透传原值。
 
 示例：
 
@@ -225,18 +207,17 @@ import {
 
 ### 点击参数
 
-支持点击的组件还会额外支持：
+支持点击的组件（`Column` / `Row` / `Img`）额外支持：
 
-- `onPress`
-- `onLongPress`
-- `touchableOpacity?: boolean`
-- `touchableScale?: boolean`
+| 参数 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `onPress` | `() => void` | — | 点击回调 |
+| `onLongPress` | `() => void` | — | 长按回调 |
+| `touchableOpacity` | `boolean` | `false` | 按下时降低透明度 |
+| `touchableScale` | `boolean` | `true` | 按下时缩放反馈 |
 
-默认行为：
-
-- `touchableOpacity` 默认 `false`
-- `touchableScale` 默认 `true`
-- 按下时会通过 `Pressable` 的 `style` 产生视觉反馈
+- 传入 `onPress` 或 `onLongPress` 后，容器会自动切换为 `Pressable` 并带有 `accessibilityRole`。
+- 按下反馈通过 `Pressable` 的 `style` 实现（缩放至 0.9 / 透明度 0.2）。
 
 示例：
 
@@ -244,26 +225,18 @@ import {
 <Row onPress={handlePress} touchableOpacity touchableScale={false} />
 ```
 
-## Column
+## 组件
 
-### 作用
+### Column
 
-竖向容器组件，适合做页面分块、卡片内容区、表单区域、弹窗内容区。
+**作用**：竖向容器组件，适合做页面分块、卡片内容区、表单区域、弹窗内容区。
 
-### 支持的参数
+**支持的参数**：所有共享布局参数 + 扩展参数 + 点击参数 + 原生 `ViewProps`。
 
-- 所有共享布局参数
-- 所有扩展参数
-- 所有点击参数
-- 原生 `ViewProps`
+**行为说明**：
 
-### 行为说明
-
-- 默认按纵向排列子元素
-- 传入 `onPress` 或 `onLongPress` 后，会自动变成可点击容器
-- 点击态支持缩放和透明度反馈
-
-### 常见示例
+- 默认按纵向排列子元素（`View` 默认 `flexDirection: 'column'`）。
+- 传入 `onPress` 或 `onLongPress` 后，自动变成可点击容器。
 
 基础纵向布局：
 
@@ -308,26 +281,16 @@ import {
 </Column>
 ```
 
-## Row
+### Row
 
-### 作用
+**作用**：横向容器组件，适合做列表项、头部栏、按钮组、左右结构布局。
 
-横向容器组件，适合做列表项、头部栏、按钮组、左右结构布局。
+**支持的参数**：所有共享布局参数 + 扩展参数 + 点击参数 + 原生 `ViewProps`。
 
-### 支持的参数
+**行为说明**：
 
-- 所有共享布局参数
-- 所有扩展参数
-- 所有点击参数
-- 原生 `ViewProps`
-
-### 行为说明
-
-- 自动带 `flexDirection: 'row'`
-- 传入 `onPress` 或 `onLongPress` 后，会自动变成可点击行容器
-- 点击态支持缩放和透明度反馈
-
-### 常见示例
+- 默认带 `flexDirection: 'row'`，作为默认值可被布尔参数（如 `flexDirectionColumn`）或 `style` 覆盖。
+- 传入 `onPress` 或 `onLongPress` 后，自动变成可点击行容器。
 
 左右分布：
 
@@ -346,7 +309,7 @@ import {
 
 ```tsx
 <Row alignItemsCenter paddingHorizontal={20} paddingVertical={16}>
-  <Img size={48} source={avatar} />
+  <Img size={48} source={avatar} borderRadius={24} />
   <Column marginLeft={12}>
     <Span text="张三" size={16} />
     <Span text="在线" size={12} color="#10b981" marginTop={4} />
@@ -383,34 +346,26 @@ import {
 </Row>
 ```
 
-## Img
+### Img
 
-### 作用
+**作用**：图片组件，适合展示图标、头像、封面图、可点击图片。
 
-图片组件，适合展示图标、头像、封面图、可点击图片。
+**支持的参数**：所有共享布局参数 + 点击参数 + 原生 `ImageProps`。
 
-### 支持的参数
+**专有参数**：
 
-- 所有共享布局参数
-- 所有点击参数
-- 原生 `ImageProps`
-- 自定义 `size` 参数
+| 参数 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `source` | `ImageSourcePropType` | — | 图片源 |
+| `size` | `number \| \`${number}%\`` | — | 同时设置宽高；数字时参与缩放 |
+| `resizeMode` | `'cover' \| 'contain' \| 'stretch' \| 'repeat' \| 'center'` | `'contain'` | 缩放模式 |
+| `style` | `StyleProp<ImageStyle>` | — | 外层样式 |
+| `imageStyle` | `ImageStyle` | — | 可点击模式下作用于内层图片的样式 |
 
-### 专有参数
+**行为说明**：
 
-- `source`
-- `size?: number | \`\${number}%\``
-- `resizeMode?: 'cover' | 'contain' | 'stretch' | 'repeat' | 'center'`
-- `style?: ImageStyle`
-
-### 行为说明
-
-- `size` 会同时设置宽高
-- `size` 为数字时会参与缩放
-- `resizeMode` 默认是 `contain`
-- 传入 `onPress` 时会启用点击态反馈
-
-### 常见示例
+- `size` 会同时设置宽高，数字类型参与缩放，百分比字符串直接透传。
+- 传入 `onPress` 时会用 `Pressable` 包裹并启用点击态反馈。
 
 普通图标：
 
@@ -421,24 +376,13 @@ import {
 头像：
 
 ```tsx
-<Img
-  size={72}
-  source={{ uri: user.avatar }}
-  resizeMode="cover"
-  borderRadius={36}
-/>
+<Img size={72} source={{ uri: user.avatar }} resizeMode="cover" borderRadius={36} />
 ```
 
 横幅图：
 
 ```tsx
-<Img
-  widthFull
-  height={180}
-  source={bannerImage}
-  resizeMode="cover"
-  borderRadius={16}
-/>
+<Img widthFull height={180} source={bannerImage} resizeMode="cover" borderRadius={16} />
 ```
 
 可点击图片：
@@ -453,25 +397,17 @@ import {
 <Img size="100%" source={poster} resizeMode="contain" />
 ```
 
-## Background
+### Background
 
-### 作用
+**作用**：背景图容器组件，适合做页面背景、卡片背景、活动会场背景。
 
-背景图容器组件，适合做页面背景、卡片背景、活动会场背景。
+**支持的参数**：所有共享布局参数 + 扩展参数 + 原生 `ImageBackgroundProps`。
 
-### 支持的参数
+**行为说明**：
 
-- 所有共享布局参数
-- 所有扩展参数
-- 原生 `ImageBackgroundProps`
-
-### 行为说明
-
-- 本质上是 `ImageBackground`
-- 支持内部继续嵌套 `children`
-- 常与 `Column`、`Row`、`Screen` 组合使用
-
-### 常见示例
+- 本质上是 `ImageBackground`，支持内部继续嵌套 `children`。
+- 常与 `Column`、`Row`、`Screen` 组合使用。
+- 不支持点击参数，如需点击请在内部嵌套可点击的 `Column` / `Row`。
 
 整页背景：
 
@@ -508,36 +444,28 @@ import {
 </Background>
 ```
 
-## Screen
+### Screen
 
-### 作用
+**作用**：页面级容器组件，负责处理全屏尺寸、安全区、状态栏和可选背景图。
 
-页面级容器组件，负责处理全屏尺寸、安全区、状态栏和可选背景图。
+**支持的参数**：所有共享布局参数 + 扩展参数 + 原生 `ViewProps` + 以下专有参数。
 
-### 支持的参数
+**专有参数**：
 
-- 所有共享布局参数
-- 所有扩展参数
-- 原生 `ViewProps`
-- 页面相关专有参数
+| 参数 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `safeAreaEdges` | `Array<Edge>` | `['bottom']` | 需要留出安全区的边 |
+| `barStyle` | `StatusBarStyle \| null` | — | 状态栏文字样式 |
+| `source` | `ImageProps['source']` | — | 传入后启用背景图模式 |
+| `statusBarProps` | `StatusBarProps` | — | 透传给 `StatusBar` |
+| `resizeMode` | `ImageResizeMode` | `'cover'` | 背景图缩放模式 |
+| `backgroundColor` | `string` | `'transparent'` | 内容容器背景色 |
 
-### 专有参数
+**行为说明**：
 
-- `safeAreaEdges?: Array<Edge>`
-- `barStyle?: StatusBarStyle | null`
-- `source?: ImageProps['source']`
-- `statusBarProps?: StatusBarProps`
-- `resizeMode?: ImageResizeMode`
-
-### 行为说明
-
-- 默认 `backgroundColor` 为 `transparent`
-- 默认内部容器带 `widthFull` 和 `heightFull`
-- 默认 `safeAreaEdges` 为 `['bottom']`
-- 传入 `source` 时，会自动使用背景图模式
-- 内部始终会渲染 `StatusBar`
-
-### 常见示例
+- 内部容器默认带 `widthFull` 和 `heightFull`。
+- 传入 `source` 时自动使用背景图模式（外层 `Background` + 内层 `Column`）。
+- 内部始终渲染一个 `StatusBar`。
 
 基础页面：
 
@@ -600,41 +528,33 @@ import {
 </Screen>
 ```
 
-## Span
+### Span
 
-### 作用
+**作用**：文本组件，适合做标题、正文、说明文案、按钮文字、标签文字。
 
-文本组件，适合做标题、正文、说明文案、按钮文字、标签文字。
+**支持的参数**：原生 `TextProps` + 大部分共享布局参数 + 以下专有参数。
 
-### 支持的参数
+**专有参数**：
 
-- 原生 `TextProps`
-- `text?: string`
-- `fontFamily?: string`
-- `style?: StyleProp<TextStyle>`
-- `color?: string`
-- `lineHeight?: number`
-- `size?: number`
-- `children?: ReactNode`
-- `textAlignLeft?: boolean`
-- `textAlignCenter?: boolean`
-- `textAlignJustify?: boolean`
-- `textAlignRight?: boolean`
-- 以及大部分共享布局参数
+| 参数 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `text` | `string` | — | 文本内容（优先于 `children`） |
+| `children` | `ReactNode` | — | 文本内容 |
+| `size` | `number` | `16` | 字号，参与缩放 |
+| `color` | `string` | — | 文字颜色 |
+| `lineHeight` | `number` | `size * 1.5` | 行高，参与缩放 |
+| `fontFamily` | `string` | — | 字体 |
+| `textAlignLeft` | `boolean` | — | 左对齐 |
+| `textAlignCenter` | `boolean` | — | 居中对齐 |
+| `textAlignRight` | `boolean` | — | 右对齐 |
+| `textAlignJustify` | `boolean` | — | 两端对齐 |
+| `style` | `StyleProp<TextStyle>` | — | 自定义样式 |
 
-### 行为说明
+**行为说明**：
 
-- 默认 `size = 16`
-- 默认行高按 `size * 1.5` 计算
-- 如果显式传 `lineHeight`，会覆盖默认行高
-- `text` 和 `children` 同时存在时，优先使用 `text`
-- 对齐参数按以下优先级生效：
-  - `textAlignCenter`
-  - `textAlignJustify`
-  - `textAlignRight`
-  - `textAlignLeft`
-
-### 常见示例
+- `text` 和 `children` 同时存在时，优先使用 `text`。
+- 对齐优先级：`textAlignCenter` > `textAlignJustify` > `textAlignRight` > `textAlignLeft`。
+- 默认会把 `height` 设为与行高一致（`size * 1.5`）。**多行文本请显式传 `lineHeight` 或用 `style` 覆盖 `height`**，否则可能被裁切。
 
 基础文本：
 
@@ -673,16 +593,112 @@ import {
 </Span>
 ```
 
-带字重和字体：
+带字体：
 
 ```tsx
 <Span text="价格" size={22} color="#ff4d4f" fontFamily="DIN-Bold" />
 ```
 
-限制行数：
+限制行数（多行文本记得覆盖固定高度）：
 
 ```tsx
-<Span text={longText} numberOfLines={2} ellipsizeMode="tail" color="#666" />
+<Span
+  text={longText}
+  numberOfLines={2}
+  ellipsizeMode="tail"
+  color="#666"
+  style={{ height: 'auto' }}
+/>
+```
+
+## Hooks 与工具函数
+
+除组件外，RNUI 还导出了一组缩放相关的 Hooks 和工具函数，可用于自定义组件或手动计算尺寸。
+
+### `setDesignWidth(width: number)`
+
+设置设计稿宽度，应在应用启动时调用一次。
+
+```ts
+import { setDesignWidth } from '@xlong/rnui'
+
+setDesignWidth(750)
+```
+
+### `useScale(): number`
+
+**响应式** Hook，返回当前缩放比（`window 宽度 / 设计稿宽度`），随屏幕尺寸变化自动更新。只能在组件 / 自定义 Hook 中调用。
+
+```tsx
+import { useScale } from '@xlong/rnui'
+
+function Custom() {
+  const scale = useScale()
+  return <View style={{ width: 100 * scale }} />
+}
+```
+
+### `getScale(): number`
+
+命令式读取当前缩放比，返回调用时刻的值（**不响应**后续屏幕变化）。可在组件外任意位置调用。
+
+```ts
+import { getScale } from '@xlong/rnui'
+
+const px = 100 * getScale()
+```
+
+### `scale(value: number): number`
+
+把设计稿数值转换为缩放后的像素值（内部使用 `getScale` + 像素对齐）。
+
+```ts
+import { scale } from '@xlong/rnui'
+
+const styles = StyleSheet.create({
+  box: { width: scale(100), height: scale(48) },
+})
+```
+
+### `scaleStyle(style, attrs?)`
+
+对一个样式对象里的数值型属性批量缩放，返回**新对象**（不修改入参）。默认缩放 `viewProps` 中的属性和 `fontSize`，可通过 `attrs` 追加需要缩放的键名。
+
+```ts
+import { scaleStyle } from '@xlong/rnui'
+
+const scaled = scaleStyle({ width: 100, padding: 12, fontSize: 16 })
+// 追加自定义键
+const scaled2 = scaleStyle({ width: 100, customSize: 20 }, ['customSize'])
+```
+
+### `useFlexPropsStyle(props)`
+
+组件内部使用的核心 Hook：把 RNUI 的扩展 props 拆分成 `flexStyle`（缩放后的样式）和 `props`（其余透传属性）。用于自定义封装组件。
+
+```tsx
+import { useFlexPropsStyle, ViewExtendProps } from '@xlong/rnui'
+import { View } from 'react-native'
+
+function MyBox(props: ViewExtendProps) {
+  const { flexStyle, props: rest } = useFlexPropsStyle(props)
+  return <View style={flexStyle} {...rest} />
+}
+```
+
+### `useSafeAreaInsetsStyle(edges?, property?)`
+
+返回指定边的安全区内边距样式。`edges` 默认 `['top', 'right', 'bottom', 'left']`，`property` 默认 `'padding'`（可选 `'margin'`）。
+
+```tsx
+import { useSafeAreaInsetsStyle } from '@xlong/rnui'
+import { View } from 'react-native'
+
+function Footer() {
+  const insetStyle = useSafeAreaInsetsStyle(['bottom'], 'padding')
+  // => { paddingBottom: number }
+  return <View style={insetStyle} />
+}
 ```
 
 ## 组合示例
@@ -769,7 +785,10 @@ import {
 
 ## 注意事项
 
-- 先调用 `setDesignWidth` 再使用组件
-- 数字型布局参数通常会参与缩放
-- `Img` 目前只有 `onPress` 会触发点击包装
-- `Span` 默认会把 `height` 设为与行高一致，多行文本场景建议显式验证效果
+- **务必先调用 `setDesignWidth`** 再渲染任何组件，否则会抛错。
+- 数值型布局参数（见上表）和 `Span` 的 `size` / `lineHeight`、`Img` 的数字 `size` 会参与缩放；`borderRadius` 等扩展参数不参与缩放。
+- 缩放基于 `window` 宽度且响应式更新，支持屏幕旋转 / 折叠屏 / 分屏。
+- `useScale` / `useFlexPropsStyle` / `useSafeAreaInsetsStyle` 是 Hook，只能在组件或自定义 Hook 中调用；组件外请用 `getScale` / `scale`。
+- `Img` 只有 `onPress` 会触发点击包装（`onLongPress` 不会单独启用）。
+- `Background` 不支持点击参数，如需点击请在内部嵌套 `Column` / `Row`。
+- `Span` 默认会把 `height` 设为与行高一致，多行文本场景请显式覆盖高度。

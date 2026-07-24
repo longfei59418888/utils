@@ -1,14 +1,28 @@
-import { useMemo } from 'react'
-import { Dimensions, PixelRatio, ViewProps } from 'react-native'
+import {
+  Dimensions,
+  PixelRatio,
+  useWindowDimensions,
+  ViewProps,
+} from 'react-native'
 import { PressableProps } from 'react-native/Libraries/Components/Pressable/Pressable'
 import { FlexStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 
-let SCALE: number | null = null
+let DESIGN_WIDTH: number | null = null
 
-export const getScale = () => {
-  if (!SCALE) throw 'please call setDesignWidth, set design width.'
-  return SCALE
+const assertDesignWidth = (width: number | null): number => {
+  if (width == null)
+    throw new Error(
+      '@xlong/rnui: please call setDesignWidth(width) before rendering.',
+    )
+  return width
 }
+
+/**
+ * 即时读取缩放比(命令式)。基于当前 window 宽度计算,旋转/分屏后再次调用即为最新值。
+ * 非响应式:在渲染期调用不会随窗口变化自动重渲染,响应式场景请用 useScale()。
+ */
+export const getScale = (): number =>
+  Dimensions.get('window').width / assertDesignWidth(DESIGN_WIDTH)
 export const viewProps = [
   'borderBottomWidth',
   'borderEndWidth',
@@ -51,8 +65,18 @@ export const viewProps = [
 ] as const
 export type FlexStyleProps = (typeof viewProps)[number]
 
+const viewPropsSet: ReadonlySet<string> = new Set(viewProps)
+
 export const setDesignWidth = (width: number) => {
-  SCALE = Dimensions.get('screen').width / width
+  DESIGN_WIDTH = width
+}
+
+/**
+ * 响应式缩放比:随窗口宽度(旋转/折叠屏/分屏)变化自动更新。
+ */
+export const useScale = (): number => {
+  const { width } = useWindowDimensions()
+  return width / assertDesignWidth(DESIGN_WIDTH)
 }
 
 export const viewPropsBooleans = {
@@ -145,19 +169,23 @@ export type ViewExtendPropsWithPress<T = object> = ViewExtendProps<{
 }> &
   T
 
-export const scaleStyle = <T = FlexStyle>(rest: T, attrs: string[] = []) => {
-  for (const attr in rest) {
-    const value = rest[attr as keyof T]
+export const scaleStyle = <T extends Record<string, unknown>>(
+  rest: T,
+  attrs: string[] = [],
+): T => {
+  const scale = getScale()
+  const extra = new Set(attrs)
+  const out: Record<string, unknown> = { ...rest }
+  for (const attr in out) {
+    const value = out[attr]
     if (
-      [...viewProps, 'fontSize', ...attrs].includes(attr as FlexStyleProps) &&
+      (viewPropsSet.has(attr) || attr === 'fontSize' || extra.has(attr)) &&
       typeof value === 'number'
     ) {
-      rest[attr as keyof T] = PixelRatio.roundToNearestPixel(
-        value * getScale(),
-      ) as any
+      out[attr] = PixelRatio.roundToNearestPixel(value * scale)
     }
   }
-  return rest
+  return out as T
 }
 
 export const scale = (value: number): number =>
@@ -179,54 +207,48 @@ export const useFlexPropsStyle = <V = ViewProps, F = FlexStyle>({
   center,
   ...rest
 }: ViewExtendProps) => {
-  return useMemo(() => {
-    let flexStyle: FlexStyle = {
-      ...(center
-        ? {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }
-        : {}),
-      ...(zIndex !== undefined ? { zIndex } : {}),
-      ...(borderColor !== undefined ? { borderColor } : {}),
-      ...(borderRadius !== undefined ? { borderRadius } : {}),
-      ...(opacity !== undefined ? { opacity } : {}),
-      ...(borderBottomLeftRadius !== undefined
-        ? { borderBottomLeftRadius }
-        : {}),
-      ...(borderBottomRightRadius !== undefined
-        ? { borderBottomRightRadius }
-        : {}),
-      ...(borderTopLeftRadius !== undefined ? { borderTopLeftRadius } : {}),
-      ...(borderTopRightRadius !== undefined ? { borderTopRightRadius } : {}),
-      ...(backgroundColor ? { backgroundColor } : {}),
-      ...(widthFull ? { width: '100%' } : {}),
-      ...(heightFull ? { height: '100%' } : {}),
-      ...(flex ? { flex: flex === true ? 1 : flex } : {}),
+  const scale = useScale()
+  let flexStyle: FlexStyle = {
+    ...(center
+      ? {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }
+      : {}),
+    ...(zIndex !== undefined ? { zIndex } : {}),
+    ...(borderColor !== undefined ? { borderColor } : {}),
+    ...(borderRadius !== undefined ? { borderRadius } : {}),
+    ...(opacity !== undefined ? { opacity } : {}),
+    ...(borderBottomLeftRadius !== undefined ? { borderBottomLeftRadius } : {}),
+    ...(borderBottomRightRadius !== undefined
+      ? { borderBottomRightRadius }
+      : {}),
+    ...(borderTopLeftRadius !== undefined ? { borderTopLeftRadius } : {}),
+    ...(borderTopRightRadius !== undefined ? { borderTopRightRadius } : {}),
+    ...(backgroundColor ? { backgroundColor } : {}),
+    ...(widthFull ? { width: '100%' } : {}),
+    ...(heightFull ? { height: '100%' } : {}),
+    ...(flex ? { flex: flex === true ? 1 : flex } : {}),
+  }
+  const props: Record<string, unknown> = {}
+  for (const attr in rest) {
+    const value = rest[attr as keyof typeof rest]
+    if (viewPropsSet.has(attr) && typeof value === 'number') {
+      flexStyle[attr as FlexStyleProps] = PixelRatio.roundToNearestPixel(
+        value * scale,
+      )
+    } else if (viewPropsBooleans[attr as FlexValue]) {
+      flexStyle = {
+        ...flexStyle,
+        ...viewPropsBooleans[attr as FlexValue],
+      } as FlexStyle
+    } else {
+      props[attr] = value
     }
-    const props: any = {}
-    for (const attr in rest) {
-      const value = rest[attr as keyof ViewProps]
-      if (
-        viewProps.includes(attr as FlexStyleProps) &&
-        typeof value === 'number'
-      ) {
-        flexStyle[attr as FlexStyleProps] = PixelRatio.roundToNearestPixel(
-          value * getScale(),
-        )
-      } else if (viewPropsBooleans[attr as FlexValue]) {
-        flexStyle = {
-          ...flexStyle,
-          ...viewPropsBooleans[attr as FlexValue],
-        } as FlexStyle
-      } else {
-        props[attr] = value
-      }
-    }
-    return {
-      flexStyle: flexStyle as F,
-      props: props as V,
-    }
-  }, [flex, heightFull, rest, widthFull])
+  }
+  return {
+    flexStyle: flexStyle as F,
+    props: props as V,
+  }
 }

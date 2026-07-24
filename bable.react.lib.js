@@ -1,4 +1,7 @@
 module.exports = {
+  comments: false,
+  compact: true,
+  minified: true,
   presets: [
     [
       '@babel/preset-env',

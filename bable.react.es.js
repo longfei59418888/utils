@@ -1,4 +1,7 @@
 module.exports = {
+  comments: false,
+  compact: true,
+  minified: true,
   sourceType: 'module',
   presets: [
     '@babel/preset-typescript',

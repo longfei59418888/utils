@@ -1,10 +1,18 @@
 import { ViewProps } from 'react-native';
 import { PressableProps } from 'react-native/Libraries/Components/Pressable/Pressable';
 import { FlexStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+/**
+ * 即时读取缩放比(命令式)。基于当前 window 宽度计算,旋转/分屏后再次调用即为最新值。
+ * 非响应式:在渲染期调用不会随窗口变化自动重渲染,响应式场景请用 useScale()。
+ */
 export declare const getScale: () => number;
 export declare const viewProps: readonly ["borderBottomWidth", "borderEndWidth", "borderLeftWidth", "borderRightWidth", "borderStartWidth", "borderTopWidth", "borderWidth", "bottom", "rowGap", "gap", "columnGap", "height", "left", "margin", "marginBottom", "marginEnd", "marginHorizontal", "marginLeft", "marginRight", "marginStart", "marginTop", "marginVertical", "maxHeight", "maxWidth", "minHeight", "minWidth", "padding", "paddingBottom", "paddingEnd", "paddingHorizontal", "paddingLeft", "paddingRight", "paddingStart", "paddingTop", "right", "start", "top", "width"];
 export type FlexStyleProps = (typeof viewProps)[number];
 export declare const setDesignWidth: (width: number) => void;
+/**
+ * 响应式缩放比:随窗口宽度(旋转/折叠屏/分屏)变化自动更新。
+ */
+export declare const useScale: () => number;
 export declare const viewPropsBooleans: {
     alignContentFlexStart: {
         alignContent: string;
@@ -167,7 +175,7 @@ export type ViewExtendPropsWithPress<T = object> = ViewExtendProps<{
     touchableScale?: boolean;
     onLongPress?: PressableProps['onLongPress'];
 }> & T;
-export declare const scaleStyle: <T = FlexStyle>(rest: T, attrs?: string[]) => T;
+export declare const scaleStyle: <T extends Record<string, unknown>>(rest: T, attrs?: string[]) => T;
 export declare const scale: (value: number) => number;
 export declare const useFlexPropsStyle: <V = ViewProps, F = FlexStyle>({ flex, zIndex, borderRadius, opacity, borderBottomLeftRadius, borderBottomRightRadius, borderTopLeftRadius, borderTopRightRadius, borderColor, widthFull, heightFull, backgroundColor, center, ...rest }: ViewExtendProps) => {
     flexStyle: F;

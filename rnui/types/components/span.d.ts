@@ -10,5 +10,5 @@ export interface TextProps extends RNTextProps {
     size?: number;
     children?: ReactNode;
 }
-export declare function Span(props: Omit<ViewExtendProps, 'style'> & TextProps & Partial<Record<`textAlign${'Left' | 'Center' | 'Justify' | 'Right'}`, boolean>>): import("react").JSX.Element;
+export declare const Span: import("react").NamedExoticComponent<Omit<ViewExtendProps, "style"> & TextProps & Partial<Record<"textAlignLeft" | "textAlignRight" | "textAlignCenter" | "textAlignJustify", boolean>>>;
 export default Span;

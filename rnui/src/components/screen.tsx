@@ -1,5 +1,5 @@
 import { ViewExtendProps } from '../hooks/useFlexPropsStyle'
-import { FC } from 'react'
+import { memo } from 'react'
 import {
   ImageProps,
   ImageResizeMode,
@@ -11,15 +11,15 @@ import { Edge } from 'react-native-safe-area-context'
 import { Background, Column } from '../index'
 import useSafeAreaInsetsStyle from '../hooks/useSafeAreaInsetsStyle'
 
-export const Screen: FC<
-  ViewExtendProps & {
-    safeAreaEdges?: Array<Edge>
-    barStyle?: null | StatusBarStyle | undefined
-    source?: ImageProps['source']
-    statusBarProps?: StatusBarProps
-    resizeMode?: ImageResizeMode
-  }
-> = ({
+type ScreenProps = ViewExtendProps & {
+  safeAreaEdges?: Array<Edge>
+  barStyle?: null | StatusBarStyle | undefined
+  source?: ImageProps['source']
+  statusBarProps?: StatusBarProps
+  resizeMode?: ImageResizeMode
+}
+
+export const Screen = memo<ScreenProps>(function Screen({
   backgroundColor = 'transparent',
   source,
   children,
@@ -29,7 +29,7 @@ export const Screen: FC<
   resizeMode = 'cover',
   safeAreaEdges = ['bottom'],
   ...rest
-}) => {
+}) {
   const safeAreaInsetStyle = useSafeAreaInsetsStyle(safeAreaEdges)
   if (source) {
     return (
@@ -57,6 +57,6 @@ export const Screen: FC<
       {children}
     </Column>
   )
-}
+})
 
 export default Screen
